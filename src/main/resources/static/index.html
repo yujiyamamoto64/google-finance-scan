@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mini Google Finance</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --card: #1f2937;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --positive: #22c55e;
+      --negative: #f87171;
+      --border: #1f2937;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at 20% 20%, #111827, #0b1222 50%), #0b1222;
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px;
+      gap: 24px;
+    }
+    h1 {
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .panel {
+      width: min(1100px, 100%);
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+    /* Ticker tape */
+    .ticker-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: linear-gradient(90deg, rgba(56,189,248,0.1), rgba(59,130,246,0.05));
+      height: 56px;
+      display: flex;
+      align-items: center;
+    }
+    .ticker-track {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: scroll 25s linear infinite;
+      white-space: nowrap;
+    }
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: rgba(15,23,42,0.6);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+      font-weight: 600;
+    }
+    .price { color: var(--text); }
+    .chg { font-weight: 700; }
+    .pos { color: var(--positive); }
+    .neg { color: var(--negative); }
+    /* Search */
+    .search-area {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .search-input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(56,189,248,0.15);
+    }
+    .suggestions {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .suggestions li {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      color: var(--text);
+    }
+    .suggestions li:hover {
+      background: rgba(56,189,248,0.08);
+    }
+    /* Card */
+    .card {
+      margin-top: 14px;
+      background: var(--card);
+      border-radius: 16px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+      display: grid;
+      gap: 12px;
+    }
+    .card-header {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .price-big {
+      font-size: 36px;
+      font-weight: 700;
+    }
+    .pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+    .meta-item {
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+    }
+    .label { color: var(--muted); font-size: 13px; }
+    .value { font-weight: 600; margin-top: 4px; }
+    .btn {
+      cursor: pointer;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      color: #0b1222;
+      background: linear-gradient(135deg, #38bdf8, #22d3ee);
+      box-shadow: 0 10px 25px rgba(56,189,248,0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 14px 30px rgba(56,189,248,0.45); }
+    .error {
+      color: var(--negative);
+      background: rgba(248,113,113,0.08);
+      border: 1px solid rgba(248,113,113,0.3);
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <h1>Mini Google Finance</h1>
+    <p style="color: var(--muted); margin: 6px 0 14px;">Acompanhe tickers, busque empresas e veja indicadores.</p>
+
+    <div class="ticker-container">
+      <div id="tickerTrack" class="ticker-track"></div>
+    </div>
+
+    <div class="search-area">
+      <input id="searchInput" class="search-input" placeholder="Digite o ticker ou nome (ex: PETR4, VALE3, ITUB4)" autocomplete="off" />
+      <ul id="suggestions" class="suggestions" style="display:none;"></ul>
+    </div>
+
+    <div id="card" class="card" style="display:none;"></div>
+    <div id="error" class="error" style="display:none;"></div>
+  </div>
+
+  <script>
+    const state = {
+      tickers: [],
+      selected: null,
+      favorites: new Set(),
+    };
+
+    const tickerTrack = document.getElementById('tickerTrack');
+    const searchInput = document.getElementById('searchInput');
+    const suggestions = document.getElementById('suggestions');
+    const card = document.getElementById('card');
+    const errorBox = document.getElementById('error');
+
+    async function loadTickers() {
+      try {
+        const res = await fetch('/api/tickers');
+        if (!res.ok) throw new Error('Falha ao carregar tickers');
+        const data = await res.json();
+        state.tickers = data;
+        renderTickerTape();
+      } catch (err) {
+        showError(err.message);
+      }
+    }
+
+    function renderTickerTape() {
+      const items = state.tickers.map(renderTickerItem).join('');
+      // duplicate the list to make infinite scroll feel continuous
+      tickerTrack.innerHTML = items + items;
+    }
+
+    function renderTickerItem(t) {
+      const cls = (t.changePercent || 0) >= 0 ? 'pos' : 'neg';
+      const pct = t.changePercent != null ? `${t.changePercent.toFixed(2)}%` : '--';
+      return `<div class="ticker-item">
+        <span>${t.symbol}</span>
+        <span class="price">${t.price.toFixed(2)}</span>
+        <span class="chg ${cls}">${pct}</span>
+      </div>`;
+    }
+
+    function filterSuggestions(term) {
+      const q = term.toLowerCase();
+      return state.tickers.filter(t => t.symbol.toLowerCase().includes(q));
+    }
+
+    function renderSuggestions(list) {
+      if (!list.length) {
+        suggestions.style.display = 'none';
+        return;
+      }
+      suggestions.innerHTML = list.map(t => `<li data-symbol="${t.symbol}">
+          <span>${t.symbol}</span>
+          <span style="color: var(--muted)">${t.price.toFixed(2)}</span>
+        </li>`).join('');
+      suggestions.style.display = 'block';
+    }
+
+    async function selectTicker(symbol) {
+      suggestions.style.display = 'none';
+      searchInput.value = symbol;
+      try {
+        const res = await fetch(`/api/scan/${symbol}?exchange=BVMF`);
+        if (!res.ok) throw new Error('Falha ao buscar dados da empresa');
+        const data = await res.json();
+        state.selected = data;
+        renderCard();
+        hideError();
+      } catch (err) {
+        showError(err.message);
+      }
+    }
+
+    function renderCard() {
+      if (!state.selected) {
+        card.style.display = 'none';
+        return;
+      }
+      const ind = state.selected.indicators;
+      const score = state.selected.score;
+      const change = ind.changePercent != null ? ind.changePercent.toFixed(2) : '--';
+      const changeCls = ind.changePercent != null && ind.changePercent < 0 ? 'neg' : 'pos';
+      card.style.display = 'grid';
+      card.innerHTML = `
+        <div class="card-header">
+          <div>
+            <div style="font-weight:700;font-size:18px;">${ind.companyName || ind.ticker} <span style="color:var(--muted);">(${ind.ticker})</span></div>
+            <div style="color:var(--muted);font-size:14px;">${ind.sector || 'Setor não disponível'}</div>
+          </div>
+          <div style="margin-left:auto; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <div class="price-big">${ind.currency} ${ind.price.toFixed(2)}</div>
+            <div class="pill ${changeCls}">${change}%</div>
+            <button class="btn" onclick="toggleFavorite('${ind.ticker}')">${state.favorites.has(ind.ticker) ? 'Favorito ★' : 'Favoritar'}</button>
+          </div>
+        </div>
+        <div class="meta">
+          ${renderMeta('Market Cap', ind.marketCap)}
+          ${ind.dividendYield != null ? renderMeta('Dividend Yield', ind.dividendYield + '%') : ''}
+          ${renderMeta('P/VPA', ind.priceToBook)}
+          ${renderMeta('ROA', ind.returnOnAssets, '%')}
+          ${renderMeta('ROC', ind.returnOnCapital, '%')}
+          ${renderMeta('Ativos', ind.totalAssets)}
+          ${renderMeta('Passivos', ind.totalLiabilities)}
+          ${renderMeta('Lucro Líquido', ind.netIncome)}
+          ${renderMeta('Ações em Circulação', ind.sharesOutstanding)}
+          <div class="meta-item">
+            <div class="label">Score</div>
+            <div class="value">${score.score.toFixed(1)} / 100</div>
+            <div class="label" style="margin-top:4px;">${score.verdict}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderMeta(label, value, suffix = '') {
+      if (value == null || value === '') {
+        return `<div class="meta-item"><div class="label">${label}</div><div class="value">N/D</div></div>`;
+      }
+      const formatted = typeof value === 'number'
+        ? formatNumber(value) + suffix
+        : value;
+      return `<div class="meta-item"><div class="label">${label}</div><div class="value">${formatted}</div></div>`;
+    }
+
+    function formatNumber(n) {
+      if (Math.abs(n) >= 1_000_000_000_000) return (n / 1_000_000_000_000).toFixed(2) + 'T';
+      if (Math.abs(n) >= 1_000_000_000) return (n / 1_000_000_000).toFixed(2) + 'B';
+      if (Math.abs(n) >= 1_000_000) return (n / 1_000_000).toFixed(2) + 'M';
+      if (Math.abs(n) >= 1_000) return (n / 1_000).toFixed(2) + 'K';
+      return n.toFixed(2);
+    }
+
+    function showError(msg) {
+      errorBox.textContent = msg;
+      errorBox.style.display = 'block';
+    }
+    function hideError() {
+      errorBox.style.display = 'none';
+    }
+
+    function toggleFavorite(symbol) {
+      if (state.favorites.has(symbol)) state.favorites.delete(symbol);
+      else state.favorites.add(symbol);
+      renderCard();
+    }
+
+    // Listeners
+    searchInput.addEventListener('input', (e) => {
+      const term = e.target.value.trim();
+      if (!term) { suggestions.style.display = 'none'; return; }
+      const list = filterSuggestions(term).slice(0, 8);
+      renderSuggestions(list);
+    });
+
+    suggestions.addEventListener('click', (e) => {
+      const li = e.target.closest('li');
+      if (!li) return;
+      selectTicker(li.dataset.symbol);
+    });
+
+    // Start
+    loadTickers().then(() => {
+      if (state.tickers[0]) {
+        selectTicker(state.tickers[0].symbol);
+      }
+    });
+  </script>
+</body>
+</html>

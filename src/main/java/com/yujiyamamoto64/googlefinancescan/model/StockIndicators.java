@@ -7,6 +7,10 @@ public class StockIndicators {
 	private final String exchange;
 	private final String currency;
 	private final double price;
+	private final Double changePercent;
+	private final String companyName;
+	private final String sector;
+	private final Double marketCap;
 	private final Double priceToBook;
 	private final Double returnOnAssets;
 	private final Double returnOnCapital;
@@ -21,6 +25,10 @@ public class StockIndicators {
 		String exchange,
 		String currency,
 		double price,
+		Double changePercent,
+		String companyName,
+		String sector,
+		Double marketCap,
 		Double priceToBook,
 		Double returnOnAssets,
 		Double returnOnCapital,
@@ -34,6 +42,10 @@ public class StockIndicators {
 		this.exchange = exchange;
 		this.currency = currency;
 		this.price = price;
+		this.changePercent = changePercent;
+		this.companyName = companyName;
+		this.sector = sector;
+		this.marketCap = marketCap;
 		this.priceToBook = priceToBook;
 		this.returnOnAssets = returnOnAssets;
 		this.returnOnCapital = returnOnCapital;
@@ -58,6 +70,22 @@ public class StockIndicators {
 
 	public double getPrice() {
 		return price;
+	}
+
+	public Double getChangePercent() {
+		return changePercent;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public String getSector() {
+		return sector;
+	}
+
+	public Double getMarketCap() {
+		return marketCap;
 	}
 
 	public Double getPriceToBook() {
@@ -99,6 +127,10 @@ public class StockIndicators {
 			", exchange='" + exchange + '\'' +
 			", currency='" + currency + '\'' +
 			", price=" + price +
+			", changePercent=" + changePercent +
+			", companyName='" + companyName + '\'' +
+			", sector='" + sector + '\'' +
+			", marketCap=" + marketCap +
 			", priceToBook=" + priceToBook +
 			", returnOnAssets=" + returnOnAssets +
 			", returnOnCapital=" + returnOnCapital +
@@ -119,7 +151,9 @@ public class StockIndicators {
 			return false;
 		}
 		return Double.compare(that.price, price) == 0 && Objects.equals(ticker, that.ticker) && Objects.equals(exchange, that.exchange)
-			&& Objects.equals(currency, that.currency) && Objects.equals(priceToBook, that.priceToBook)
+			&& Objects.equals(currency, that.currency) && Objects.equals(changePercent, that.changePercent)
+			&& Objects.equals(companyName, that.companyName) && Objects.equals(sector, that.sector)
+			&& Objects.equals(marketCap, that.marketCap) && Objects.equals(priceToBook, that.priceToBook)
 			&& Objects.equals(returnOnAssets, that.returnOnAssets) && Objects.equals(returnOnCapital, that.returnOnCapital)
 			&& Objects.equals(totalAssets, that.totalAssets) && Objects.equals(totalLiabilities, that.totalLiabilities)
 			&& Objects.equals(netIncome, that.netIncome) && Objects.equals(sharesOutstanding, that.sharesOutstanding)
@@ -128,7 +162,7 @@ public class StockIndicators {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(ticker, exchange, currency, price, priceToBook, returnOnAssets, returnOnCapital, totalAssets, totalLiabilities, netIncome,
-			sharesOutstanding, dividendYield);
+		return Objects.hash(ticker, exchange, currency, price, changePercent, companyName, sector, marketCap, priceToBook, returnOnAssets, returnOnCapital,
+			totalAssets, totalLiabilities, netIncome, sharesOutstanding, dividendYield);
 	}
 }

@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 import org.jsoup.Connection;
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -34,7 +35,11 @@ public class GoogleFinanceScraper {
 			Document doc = connection.get();
 
 			double price = parsePrice(doc);
+			Double changePercent = parseChangePercent(doc);
 			String currency = guessCurrency(doc, normalizedExchange);
+			String companyName = parseCompanyName(doc, ticker);
+			String sector = parseSector(doc);
+			Double marketCap = parseStat(doc, "Market cap");
 
 			Double priceToBook = parseStat(doc, "Price to book");
 			Double returnOnAssets = parseStat(doc, "Return on assets");
@@ -50,6 +55,10 @@ public class GoogleFinanceScraper {
 				normalizedExchange,
 				currency,
 				price,
+				changePercent,
+				companyName,
+				sector,
+				marketCap,
 				priceToBook,
 				returnOnAssets,
 				returnOnCapital,
@@ -59,6 +68,8 @@ public class GoogleFinanceScraper {
 				sharesOutstanding,
 				dividendYield
 			);
+		} catch (HttpStatusException ex) {
+			throw new IllegalStateException("Google Finance retornou status " + ex.getStatusCode() + " para " + ticker, ex);
 		} catch (IOException | ParseException ex) {
 			throw new IllegalStateException("Falha ao acessar Google Finance: " + ex.getMessage(), ex);
 		}
@@ -72,6 +83,14 @@ public class GoogleFinanceScraper {
 		}
 		String raw = priceEl.text();
 		return parseNumeric(raw);
+	}
+
+	private Double parseChangePercent(Document doc) {
+		Element changeEl = doc.select("div.zWwE1 .JwB6zf, span.JwB6zf").first();
+		if (changeEl != null) {
+			return parseOptionalNumeric(changeEl.text());
+		}
+		return null;
 	}
 
 	private String guessCurrency(Document doc, String exchange) {
@@ -99,6 +118,32 @@ public class GoogleFinanceScraper {
 			return "EUR";
 		}
 		return symbol;
+	}
+
+	private String parseCompanyName(Document doc, String fallback) {
+		Element nameEl = doc.selectFirst("div.zzDege, div.e1AOyf h1, div.e1AOyf .zzDege, div.e1AOyf div.eYanAe");
+		if (nameEl != null && !nameEl.text().isBlank()) {
+			return nameEl.text();
+		}
+		return fallback;
+	}
+
+	private String parseSector(Document doc) {
+		Element sectorLabel = doc.select("*:matchesOwn((?i)^Sector$)").first();
+		if (sectorLabel != null) {
+			Element sibling = sectorLabel.nextElementSibling();
+			if (sibling != null && !sibling.text().isBlank()) {
+				return sibling.text();
+			}
+		}
+		Element meta = doc.selectFirst("meta[name=description]");
+		if (meta != null) {
+			String content = meta.attr("content");
+			if (content != null && !content.isBlank()) {
+				return content;
+			}
+		}
+		return null;
 	}
 
 	private Double parseStat(Document doc, String label) {

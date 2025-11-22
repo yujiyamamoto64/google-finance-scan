@@ -11,6 +11,7 @@ import com.yujiyamamoto64.googlefinancescan.model.ScoreResult;
 import com.yujiyamamoto64.googlefinancescan.model.StockIndicators;
 import com.yujiyamamoto64.googlefinancescan.service.GoogleFinanceScraper;
 import com.yujiyamamoto64.googlefinancescan.service.ScoringService;
+import com.yujiyamamoto64.googlefinancescan.service.StockSnapshotService;
 
 @RestController
 @RequestMapping("/api/scan")
@@ -18,10 +19,12 @@ public class ScanController {
 
 	private final GoogleFinanceScraper scraper;
 	private final ScoringService scoringService;
+	private final StockSnapshotService snapshotService;
 
-	public ScanController(GoogleFinanceScraper scraper, ScoringService scoringService) {
+	public ScanController(GoogleFinanceScraper scraper, ScoringService scoringService, StockSnapshotService snapshotService) {
 		this.scraper = scraper;
 		this.scoringService = scoringService;
+		this.snapshotService = snapshotService;
 	}
 
 	@GetMapping("/{ticker}")
@@ -31,6 +34,7 @@ public class ScanController {
 	) {
 		StockIndicators indicators = scraper.fetchIndicators(ticker, exchange);
 		ScoreResult score = scoringService.score(indicators);
+		snapshotService.saveOrUpdate(indicators); // atualiza o banco a cada busca
 		return new ScanResult(indicators, score);
 	}
 }
