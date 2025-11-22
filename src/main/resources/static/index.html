@@ -29,11 +29,7 @@
       padding: 24px;
       gap: 24px;
     }
-    h1 {
-      margin: 0;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-    }
+    h1 { margin: 0; font-weight: 700; letter-spacing: -0.5px; }
     .panel {
       width: min(1100px, 100%);
       background: var(--panel);
@@ -42,7 +38,6 @@
       padding: 18px;
       box-shadow: 0 20px 60px rgba(0,0,0,0.35);
     }
-    /* Ticker tape */
     .ticker-container {
       position: relative;
       overflow: hidden;
@@ -60,10 +55,7 @@
       animation: scroll 25s linear infinite;
       white-space: nowrap;
     }
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
+    @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
     .ticker-item {
       display: inline-flex;
       align-items: center;
@@ -79,13 +71,7 @@
     .chg { font-weight: 700; }
     .pos { color: var(--positive); }
     .neg { color: var(--negative); }
-    /* Search */
-    .search-area {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 12px;
-    }
+    .search-area { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
     .search-input {
       width: 100%;
       padding: 14px 16px;
@@ -97,31 +83,10 @@
       outline: none;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    .search-input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(56,189,248,0.15);
-    }
-    .suggestions {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-    }
-    .suggestions li {
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--border);
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      color: var(--text);
-    }
-    .suggestions li:hover {
-      background: rgba(56,189,248,0.08);
-    }
-    /* Card */
+    .search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(56,189,248,0.15); }
+    .suggestions { list-style: none; padding: 0; margin: 0; background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .suggestions li { padding: 12px 14px; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; justify-content: space-between; color: var(--text); }
+    .suggestions li:hover { background: rgba(56,189,248,0.08); }
     .card {
       margin-top: 14px;
       background: var(--card);
@@ -132,55 +97,20 @@
       display: grid;
       gap: 12px;
     }
-    .card-header {
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .price-big {
-      font-size: 36px;
-      font-weight: 700;
-    }
-    .pill {
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-weight: 600;
-      border: 1px solid var(--border);
-    }
-    .meta {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 10px;
-    }
-    .meta-item {
-      padding: 12px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid var(--border);
-    }
+    .card-header { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+    .price-big { font-size: 36px; font-weight: 700; }
+    .pill { padding: 6px 10px; border-radius: 999px; font-weight: 600; border: 1px solid var(--border); }
+    .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+    .meta-item { padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); }
     .label { color: var(--muted); font-size: 13px; }
     .value { font-weight: 600; margin-top: 4px; }
     .btn {
-      cursor: pointer;
-      border: none;
-      padding: 10px 14px;
-      border-radius: 10px;
-      font-weight: 700;
-      color: #0b1222;
-      background: linear-gradient(135deg, #38bdf8, #22d3ee);
-      box-shadow: 0 10px 25px rgba(56,189,248,0.35);
+      cursor: pointer; border: none; padding: 10px 14px; border-radius: 10px; font-weight: 700; color: #0b1222;
+      background: linear-gradient(135deg, #38bdf8, #22d3ee); box-shadow: 0 10px 25px rgba(56,189,248,0.35);
       transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
     .btn:hover { transform: translateY(-1px); box-shadow: 0 14px 30px rgba(56,189,248,0.45); }
-    .error {
-      color: var(--negative);
-      background: rgba(248,113,113,0.08);
-      border: 1px solid rgba(248,113,113,0.3);
-      padding: 12px;
-      border-radius: 10px;
-      margin-top: 10px;
-    }
+    .error { color: var(--negative); background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.3); padding: 12px; border-radius: 10px; margin-top: 10px; }
   </style>
 </head>
 <body>
@@ -193,7 +123,7 @@
     </div>
 
     <div class="search-area">
-      <input id="searchInput" class="search-input" placeholder="Digite o ticker ou nome (ex: PETR4, VALE3, ITUB4)" autocomplete="off" />
+      <input id="searchInput" class="search-input" placeholder="Digite o nome da empresa ou a sigla" autocomplete="off" />
       <ul id="suggestions" class="suggestions" style="display:none;"></ul>
     </div>
 
@@ -202,12 +132,7 @@
   </div>
 
   <script>
-    const state = {
-      tickers: [],
-      selected: null,
-      favorites: new Set(),
-    };
-
+    const state = { tickers: [], selected: null, favorites: new Set() };
     const tickerTrack = document.getElementById('tickerTrack');
     const searchInput = document.getElementById('searchInput');
     const suggestions = document.getElementById('suggestions');
@@ -221,47 +146,32 @@
         const data = await res.json();
         state.tickers = data;
         renderTickerTape();
-      } catch (err) {
-        showError(err.message);
-      }
+      } catch (err) { showError(err.message); }
     }
 
     function renderTickerTape() {
       const items = state.tickers.map(renderTickerItem).join('');
-      // duplicate the list to make infinite scroll feel continuous
       tickerTrack.innerHTML = items + items;
     }
-
     function renderTickerItem(t) {
       const cls = (t.changePercent || 0) >= 0 ? 'pos' : 'neg';
       const pct = t.changePercent != null ? `${t.changePercent.toFixed(2)}%` : '--';
       return `<div class="ticker-item">
-        <span>${t.symbol}</span>
-        <span class="price">${t.price.toFixed(2)}</span>
-        <span class="chg ${cls}">${pct}</span>
+        <span>${t.symbol}</span><span class="price">${t.price.toFixed(2)}</span><span class="chg ${cls}">${pct}</span>
       </div>`;
     }
 
-    function filterSuggestions(term) {
-      const q = term.toLowerCase();
-      return state.tickers.filter(t => t.symbol.toLowerCase().includes(q));
-    }
-
-    function renderSuggestions(list) {
-      if (!list.length) {
-        suggestions.style.display = 'none';
-        return;
-      }
-      suggestions.innerHTML = list.map(t => `<li data-symbol="${t.symbol}">
-          <span>${t.symbol}</span>
-          <span style="color: var(--muted)">${t.price.toFixed(2)}</span>
+    async function renderSuggestions(list) {
+      if (!list.length) { suggestions.style.display = 'none'; return; }
+      suggestions.innerHTML = list.map(t => `<li data-symbol="${t.ticker}">
+          <span>${t.ticker}</span><span style="color: var(--muted)">${t.name || ''}</span>
         </li>`).join('');
       suggestions.style.display = 'block';
     }
 
     async function selectTicker(symbol) {
       suggestions.style.display = 'none';
-      searchInput.value = symbol;
+      searchInput.value = '';
       try {
         const res = await fetch(`/api/scan/${symbol}?exchange=BVMF`);
         if (!res.ok) throw new Error('Falha ao buscar dados da empresa');
@@ -269,16 +179,11 @@
         state.selected = data;
         renderCard();
         hideError();
-      } catch (err) {
-        showError(err.message);
-      }
+      } catch (err) { showError(err.message); }
     }
 
     function renderCard() {
-      if (!state.selected) {
-        card.style.display = 'none';
-        return;
-      }
+      if (!state.selected) { card.style.display = 'none'; return; }
       const ind = state.selected.indicators;
       const score = state.selected.score;
       const change = ind.changePercent != null ? ind.changePercent.toFixed(2) : '--';
@@ -297,15 +202,15 @@
           </div>
         </div>
         <div class="meta">
-          ${renderMeta('Market Cap', ind.marketCap)}
-          ${ind.dividendYield != null ? renderMeta('Dividend Yield', ind.dividendYield + '%') : ''}
-          ${renderMeta('P/VPA', ind.priceToBook)}
-          ${renderMeta('ROA', ind.returnOnAssets, '%')}
-          ${renderMeta('ROC', ind.returnOnCapital, '%')}
-          ${renderMeta('Ativos', ind.totalAssets)}
-          ${renderMeta('Passivos', ind.totalLiabilities)}
-          ${renderMeta('Lucro Líquido', ind.netIncome)}
-          ${renderMeta('Ações em Circulação', ind.sharesOutstanding)}
+          ${renderMeta('Market Cap', ind.marketCap, '', 'Valor de mercado da empresa.')}
+          ${ind.dividendYield != null ? renderMeta('Dividend Yield', ind.dividendYield, '%', 'Provento em % sobre o preço atual.') : ''}
+          ${renderMeta('P/VPA', ind.priceToBook, '', 'Preço dividido pelo valor patrimonial por ação.')}
+          ${renderMeta('ROA', ind.returnOnAssets, '%', 'Retorno sobre ativos: lucro vs. ativos.')}
+          ${renderMeta('ROC', ind.returnOnCapital, '%', 'Retorno sobre o capital investido.')}
+          ${renderMeta('Ativos', ind.totalAssets, '', 'Ativos totais reportados.')}
+          ${renderMeta('Passivos', ind.totalLiabilities, '', 'Passivos totais reportados.')}
+          ${renderMeta('Lucro Líquido', ind.netIncome, '', 'Lucro líquido do período.')}
+          ${renderMeta('Ações em Circulação', ind.sharesOutstanding, '', 'Quantidade de ações em circulação.')}
           <div class="meta-item">
             <div class="label">Score</div>
             <div class="value">${score.score.toFixed(1)} / 100</div>
@@ -315,14 +220,11 @@
       `;
     }
 
-    function renderMeta(label, value, suffix = '') {
-      if (value == null || value === '') {
-        return `<div class="meta-item"><div class="label">${label}</div><div class="value">N/D</div></div>`;
-      }
-      const formatted = typeof value === 'number'
-        ? formatNumber(value) + suffix
-        : value;
-      return `<div class="meta-item"><div class="label">${label}</div><div class="value">${formatted}</div></div>`;
+    function renderMeta(label, value, suffix = '', help = '') {
+      if (value == null || value === '') return `<div class="meta-item"><div class="label">${label}</div><div class="value">N/D</div></div>`;
+      const formatted = typeof value === 'number' ? formatNumber(value) + suffix : value;
+      const helpIcon = help ? `<span title="${help}" style="margin-left:6px;color:var(--muted);cursor:help;">?</span>` : '';
+      return `<div class="meta-item"><div class="label">${label}${helpIcon}</div><div class="value">${formatted}</div></div>`;
     }
 
     function formatNumber(n) {
@@ -333,26 +235,19 @@
       return n.toFixed(2);
     }
 
-    function showError(msg) {
-      errorBox.textContent = msg;
-      errorBox.style.display = 'block';
-    }
-    function hideError() {
-      errorBox.style.display = 'none';
-    }
+    function showError(msg) { errorBox.textContent = msg; errorBox.style.display = 'block'; }
+    function hideError() { errorBox.style.display = 'none'; }
+    function toggleFavorite(symbol) { state.favorites.has(symbol) ? state.favorites.delete(symbol) : state.favorites.add(symbol); renderCard(); }
 
-    function toggleFavorite(symbol) {
-      if (state.favorites.has(symbol)) state.favorites.delete(symbol);
-      else state.favorites.add(symbol);
-      renderCard();
-    }
-
-    // Listeners
-    searchInput.addEventListener('input', (e) => {
+    searchInput.addEventListener('input', async (e) => {
       const term = e.target.value.trim();
       if (!term) { suggestions.style.display = 'none'; return; }
-      const list = filterSuggestions(term).slice(0, 8);
-      renderSuggestions(list);
+      try {
+        const res = await fetch(`/api/search?q=${encodeURIComponent(term)}`);
+        if (!res.ok) throw new Error('Erro ao buscar sugestões');
+        const list = await res.json();
+        renderSuggestions(list.slice(0, 8));
+      } catch (err) { showError(err.message); }
     });
 
     suggestions.addEventListener('click', (e) => {
@@ -361,12 +256,7 @@
       selectTicker(li.dataset.symbol);
     });
 
-    // Start
-    loadTickers().then(() => {
-      if (state.tickers[0]) {
-        selectTicker(state.tickers[0].symbol);
-      }
-    });
+    loadTickers().then(() => { if (state.tickers[0]) { selectTicker(state.tickers[0].symbol); } });
   </script>
 </body>
 </html>

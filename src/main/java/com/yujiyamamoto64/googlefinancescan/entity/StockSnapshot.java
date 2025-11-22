@@ -35,6 +35,7 @@ public class StockSnapshot {
 	private Double netIncome;
 	private Double sharesOutstanding;
 	private Double dividendYield;
+	private Double score;
 
 	@Column(nullable = false)
 	private OffsetDateTime updatedAt;
@@ -173,6 +174,14 @@ public class StockSnapshot {
 
 	public void setDividendYield(Double dividendYield) {
 		this.dividendYield = dividendYield;
+	}
+
+	public Double getScore() {
+		return score;
+	}
+
+	public void setScore(Double score) {
+		this.score = score;
 	}
 
 	public OffsetDateTime getUpdatedAt() {

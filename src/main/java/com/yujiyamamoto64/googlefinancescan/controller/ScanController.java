@@ -34,7 +34,7 @@ public class ScanController {
 	) {
 		StockIndicators indicators = scraper.fetchIndicators(ticker, exchange);
 		ScoreResult score = scoringService.score(indicators);
-		snapshotService.saveOrUpdate(indicators); // atualiza o banco a cada busca
+		snapshotService.saveOrUpdate(indicators, score.getScore()); // atualiza o banco a cada busca
 		return new ScanResult(indicators, score);
 	}
 }

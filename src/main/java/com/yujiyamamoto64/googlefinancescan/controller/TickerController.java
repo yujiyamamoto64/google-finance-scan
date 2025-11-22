@@ -5,12 +5,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yujiyamamoto64.googlefinancescan.model.TickerQuote;
-import com.yujiyamamoto64.googlefinancescan.service.GoogleFinanceScraper;
 import com.yujiyamamoto64.googlefinancescan.service.StockSnapshotService;
+import com.yujiyamamoto64.googlefinancescan.service.GoogleFinanceScraper;
 
 @RestController
 @RequestMapping("/api")
@@ -32,7 +33,7 @@ public class TickerController {
 	public List<TickerQuote> tickerTape() {
 		return DEFAULT_TICKERS.stream()
 			.map(ticker -> scraper.fetchIndicators(ticker, "BVMF"))
-			.peek(snapshotService::saveOrUpdate) // mantém banco atualizado enquanto alimenta o tape
+			.peek(ind -> snapshotService.saveOrUpdate(ind, null)) // mantém banco atualizado enquanto alimenta o tape
 			.map(ind -> new TickerQuote(ind.getTicker(), ind.getPrice(), ind.getChangePercent()))
 			.collect(Collectors.toList());
 	}

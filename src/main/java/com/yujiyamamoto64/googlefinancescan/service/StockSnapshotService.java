@@ -23,7 +23,7 @@ public class StockSnapshotService {
 	}
 
 	@Transactional
-	public StockSnapshot saveOrUpdate(StockIndicators indicators) {
+	public StockSnapshot saveOrUpdate(StockIndicators indicators, Double score) {
 		Optional<StockSnapshot> existing = repository.findByTickerIgnoreCase(indicators.getTicker());
 		StockSnapshot snap = existing.orElseGet(StockSnapshot::new);
 		snap.setTicker(indicators.getTicker());
@@ -42,6 +42,7 @@ public class StockSnapshotService {
 		snap.setNetIncome(indicators.getNetIncome());
 		snap.setSharesOutstanding(indicators.getSharesOutstanding());
 		snap.setDividendYield(indicators.getDividendYield());
+		snap.setScore(score);
 		snap.setUpdatedAt(OffsetDateTime.now());
 		StockSnapshot saved = repository.save(snap);
 		log.info("{} atualizado em {}", saved.getTicker(), saved.getUpdatedAt());
