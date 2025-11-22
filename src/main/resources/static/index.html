@@ -101,9 +101,25 @@
     .price-big { font-size: 36px; font-weight: 700; }
     .pill { padding: 6px 10px; border-radius: 999px; font-weight: 600; border: 1px solid var(--border); }
     .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
-    .meta-item { padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); }
+    .meta-item { padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); position: relative; }
     .label { color: var(--muted); font-size: 13px; }
     .value { font-weight: 600; margin-top: 4px; }
+    .help-icon {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 1px solid #cbd5e1;
+      color: #cbd5e1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      cursor: help;
+      background: rgba(255,255,255,0.03);
+    }
     .btn {
       cursor: pointer; border: none; padding: 10px 14px; border-radius: 10px; font-weight: 700; color: #0b1222;
       background: linear-gradient(135deg, #38bdf8, #22d3ee); box-shadow: 0 10px 25px rgba(56,189,248,0.35);
@@ -221,10 +237,12 @@
     }
 
     function renderMeta(label, value, suffix = '', help = '') {
-      if (value == null || value === '') return `<div class="meta-item"><div class="label">${label}</div><div class="value">N/D</div></div>`;
+      const helpIcon = help ? `<span class="help-icon" title="${help}">?</span>` : '';
+      if (value == null || value === '') {
+        return `<div class="meta-item">${helpIcon}<div class="label">${label}</div><div class="value">N/D</div></div>`;
+      }
       const formatted = typeof value === 'number' ? formatNumber(value) + suffix : value;
-      const helpIcon = help ? `<span title="${help}" style="margin-left:6px;color:var(--muted);cursor:help;">?</span>` : '';
-      return `<div class="meta-item"><div class="label">${label}${helpIcon}</div><div class="value">${formatted}</div></div>`;
+      return `<div class="meta-item">${helpIcon}<div class="label">${label}</div><div class="value">${formatted}</div></div>`;
     }
 
     function formatNumber(n) {
