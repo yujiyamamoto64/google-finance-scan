@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.yujiyamamoto64.googlefinancescan.entity.StockSnapshot;
 import com.yujiyamamoto64.googlefinancescan.model.StockIndicators;
@@ -13,6 +15,7 @@ import com.yujiyamamoto64.googlefinancescan.repository.StockSnapshotRepository;
 @Service
 public class StockSnapshotService {
 
+	private static final Logger log = LoggerFactory.getLogger(StockSnapshotService.class);
 	private final StockSnapshotRepository repository;
 
 	public StockSnapshotService(StockSnapshotRepository repository) {
@@ -40,6 +43,8 @@ public class StockSnapshotService {
 		snap.setSharesOutstanding(indicators.getSharesOutstanding());
 		snap.setDividendYield(indicators.getDividendYield());
 		snap.setUpdatedAt(OffsetDateTime.now());
-		return repository.save(snap);
+		StockSnapshot saved = repository.save(snap);
+		log.info("{} atualizado em {}", saved.getTicker(), saved.getUpdatedAt());
+		return saved;
 	}
 }
