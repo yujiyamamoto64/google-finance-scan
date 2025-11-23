@@ -148,11 +148,10 @@ public class GoogleFinanceScraper {
 
 	private Double parseStatSingle(Document doc, String label) {
 
-		String esc = safeCssText(label);
 		String regex = Pattern.quote(label);
 
-		// 1. Novo padrão Google Finance
-		Element row = doc.selectFirst("div.P6K39c:has(div.mfs7Fc:matchesOwn(" + esc + "))");
+		// 1. Padrão novo do Google Finance
+		Element row = doc.selectFirst("div.P6K39c:has(div.mfs7Fc:matchesOwn(" + regex + "))");
 		if (row != null) {
 			Element value = row.selectFirst("div[jsname=U8sYAd]");
 			if (value != null && !value.text().isBlank()) {
@@ -160,8 +159,8 @@ public class GoogleFinanceScraper {
 			}
 		}
 
-		// 2. fallback seguro
-		Element labelEl = doc.selectFirst("*:matchesOwn(\"" + regex + "\")");
+		// 2. Fallback seguro
+		Element labelEl = doc.selectFirst("*:matchesOwn(" + regex + ")");
 		if (labelEl != null) {
 			Element sibling = labelEl.parent().selectFirst("div[jsname=U8sYAd]");
 			if (sibling != null) {
@@ -170,18 +169,6 @@ public class GoogleFinanceScraper {
 		}
 
 		return null;
-	}
-
-	private String safeCssText(String text) {
-		return text
-				.replace("\\", "\\\\")
-				.replace("'", "\\'")
-				.replace("\"", "\\\"")
-				.replace("(", "\\(")
-				.replace(")", "\\)")
-				.replace("[", "\\[")
-				.replace("]", "\\]")
-				.replace(":", "\\:");
 	}
 
 	// ============================
