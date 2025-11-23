@@ -192,6 +192,14 @@ public class GoogleFinanceScraper {
 	private Double parseStatSingle(Document doc, String label) {
 		String normalizedLabel = normalizeLabel(label);
 
+		for (Element row : doc.select("tr.roXhBd")) {
+			Element labelCell = row.selectFirst("td.J9Jhg");
+			Element valueCell = row.selectFirst("td.QXDnM");
+			if (labelMatches(labelCell, normalizedLabel) && valueCell != null && !valueCell.text().isBlank()) {
+				return parseOptionalNumeric(valueCell.text());
+			}
+		}
+
 		for (Element row : doc.select("div.P6K39c")) {
 			Element labelEl = row.selectFirst("div.mfs7Fc");
 			if (labelMatches(labelEl, normalizedLabel)) {
