@@ -41,33 +41,50 @@ public class TickerBootstrap implements ApplicationRunner {
 	@Override
 	@Transactional
 	public void run(ApplicationArguments args) throws Exception {
-		List<String> tickers = loadTickers();
+		List<TickerRow> tickers = loadTickers();
 		int inserted = 0;
 		for (String ticker : tickers) {
-			boolean exists = repository.findByTickerIgnoreCase(ticker).isPresent();
-			if (exists) {
-				continue;
+			boolean exists = repository.findByTickerIgnoreCase(ticker.code()).isPresent();
+			if (!exists) {
+				StockSnapshot snap = new StockSnapshot();
+				snap.setTicker(ticker.code());
+				snap.setCompanyName(ticker.name());
+				snap.setExchange("BVMF");
+				snap.setUpdatedAt(OffsetDateTime.now());
+				repository.save(snap);
+				inserted++;
+			} else {
+				// Atualiza nome se vier vazio no banco.
+				repository.findByTickerIgnoreCase(ticker.code()).ifPresent(snap -> {
+					if (snap.getCompanyName() == null || snap.getCompanyName().isBlank() || snap.getCompanyName().equalsIgnoreCase(snap.getTicker())) {
+						snap.setCompanyName(ticker.name());
+						repository.save(snap);
+					}
+				});
 			}
-			StockSnapshot snap = new StockSnapshot();
-			snap.setTicker(ticker);
-			snap.setCompanyName(ticker); // placeholder para aparecer na busca
-			snap.setExchange("BVMF");
-			snap.setUpdatedAt(OffsetDateTime.now());
-			repository.save(snap);
-			inserted++;
 		}
 		if (inserted > 0) {
 			log.info("Seed de tickers B3 concluido: {} novos registros inseridos", inserted);
 		}
 	}
 
-	private List<String> loadTickers() throws IOException {
+	private List<TickerRow> loadTickers() throws IOException {
 		try (BufferedReader reader = new BufferedReader(
 			new InputStreamReader(tickersResource.getInputStream(), StandardCharsets.UTF_8))) {
 			return reader.lines()
 				.map(String::trim)
 				.filter(line -> !line.isEmpty() && !line.startsWith("#"))
+				.map(this::parseRow)
 				.collect(Collectors.toList());
 		}
 	}
+
+	private TickerRow parseRow(String line) {
+		String[] parts = line.split(";", 2);
+		String code = parts[0].trim().toUpperCase();
+		String name = parts.length > 1 ? parts[1].trim() : code;
+		return new TickerRow(code, name);
+	}
+
+	private record TickerRow(String code, String name) {}
 }

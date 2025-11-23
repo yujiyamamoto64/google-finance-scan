@@ -1,399 +1,399 @@
-AALR3
-ABCB4
-ABEV3
-ADMF3
-AERI3
-AFLT3
-AGRO3
-AGXY3
-AHEB3
-ALLD3
-ALOS3
-ALPA3
-ALPA4
-ALPK3
-ALUP11
-ALUP3
-ALUP4
-AMAR11
-AMAR3
-AMBP3
-AMER3
-AMOB3
-ANIM3
-ARML3
-ASAI3
-ATED3
-AURE3
-AVLL3
-AXIA3
-AXIA6
-AZEV11
-AZEV3
-AZEV4
-AZTE3
-AZUL4
-AZZA3
-B3SA3
-BALM3
-BALM4
-BAUH4
-BAZA3
-BBAS3
-BBDC3
-BBDC4
-BBSE3
-BDLL4
-BEEF3
-BEES3
-BEES4
-BGIP3
-BGIP4
-BHIA3
-BIED3
-BIOM3
-BLAU3
-BMEB3
-BMEB4
-BMGB4
-BMIN4
-BMKS3
-BMOB3
-BNBR3
-BOBR4
-BPAC11
-BPAC3
-BPAC5
-BPAN4
-BRAP3
-BRAP4
-BRAV3
-BRBI11
-BRKM3
-BRKM5
-BRKM6
-BRSR3
-BRSR5
-BRSR6
-BRST3
-BSLI3
-BSLI4
-CALI3
-CAMB3
-CAML3
-CASH3
-CBAV3
-CEAB3
-CEBR3
-CEBR5
-CEBR6
-CEDO3
-CEDO4
-CEEB3
-CEED3
-CGAS3
-CGAS5
-CGRA3
-CGRA4
-CLSC3
-CLSC4
-CMIG3
-CMIG4
-CMIN3
-COCE5
-COGN3
-CPFE3
-CPLE3
-CPLE5
-CRPG3
-CRPG5
-CRPG6
-CSAN3
-CSED3
-CSMG3
-CSNA3
-CSUD3
-CTAX3
-CTKA3
-CTKA4
-CTSA3
-CTSA4
-CURY3
-CVCB3
-CXSE3
-CYRE3
-DASA3
-DESK3
-DEXP3
-DEXP4
-DIRR3
-DMVF3
-DOHL3
-DOHL4
-DOTZ3
-DTCY3
-DXCO3
-EALT3
-EALT4
-ECOR3
-EGIE3
-EKTR3
-EKTR4
-EMAE4
-EMBJ3
-ENEV3
-ENGI11
-ENGI3
-ENGI4
-ENJU3
-ENMT3
-ENMT4
-EPAR3
-EQMA3B
-EQPA3
-EQTL3
-ESPA3
-ESTR4
-ETER3
-EUCA3
-EUCA4
-EVEN3
-EZTC3
-FESA3
-FESA4
-FHER3
-FICT3
-FIEI3
-FIQE3
-FLRY3
-FRAS3
-GEPA3
-GEPA4
-GFSA3
-GGBR3
-GGBR4
-GGPS3
-GMAT3
-GOAU3
-GOAU4
-GRND3
-GSHP3
-GUAR3
-HAGA3
-HAGA4
-HAPV3
-HBOR3
-HBRE3
-HBSA3
-HBTS5
-HETA4
-HOOT4
-HYPE3
-IFCM3
-IGTI11
-IGTI3
-IGTI4
-INEP3
-INEP4
-INTB3
-IRBR3
-ISAE3
-ISAE4
-ITSA3
-ITSA4
-ITUB3
-ITUB4
-JALL3
-JFEN3
-JHSF3
-JOPA3
-JSLG3
-KEPL3
-KLBN11
-KLBN3
-KLBN4
-LAND3
-LAVV3
-LEVE3
-LIGT3
-LJQQ3
-LOGG3
-LOGN3
-LPSB3
-LREN3
-LUPA3
-LUXM4
-LWSA3
-MAPT3
-MAPT4
-MATD3
-MBRF3
-MDIA3
-MDNE3
-MEAL3
-MELK3
-MERC3
-MERC4
-MGEL4
-MGLU3
-MILS3
-MLAS3
-MNDL3
-MNPR3
-MOAR3
-MOTV3
-MOVI3
-MRSA3B
-MRSA5B
-MRSA6B
-MRVE3
-MSPA3
-MSPA4
-MTRE3
-MTSA4
-MULT3
-MWET3
-MWET4
-MYPK3
-NATU3
-NEOE3
-NEXP3
-NGRD3
-NORD3
-NUTR3
-ODPV3
-OFSA3
-OIBR3
-OIBR4
-ONCO3
-OPCT3
-ORVR3
-OSXB3
-PATI3
-PATI4
-PCAR3
-PDGR3
-PDTC3
-PEAB3
-PEAB4
-PETR3
-PETR4
-PETZ3
-PFRM3
-PGMN3
-PINE11
-PINE3
-PINE4
-PLAS3
-PLPL3
-PMAM3
-PNVL3
-POMO3
-POMO4
-PORT3
-POSI3
-PPLA11
-PRIO3
-PRNR3
-PSSA3
-PSVM11
-PTBL3
-PTNT3
-PTNT4
-QUAL3
-RADL3
-RAIL3
-RAIZ4
-RANI3
-RAPT3
-RAPT4
-RCSL3
-RCSL4
-RDNI3
-RDOR3
-REAG3
-RECV3
-REDE3
-RENT3
-RNEW3
-RNEW4
-ROMI3
-RPAD5
-RPMG3
-RSID3
-RSUL4
-RVEE3
-SANB11
-SANB3
-SANB4
-SAPR11
-SAPR3
-SAPR4
-SBFG3
-SBSP3
-SCAR3
-SEER3
-SEQL3
-SHOW3
-SHUL4
-SIMH3
-SLCE3
-SMFT3
-SMTO3
-SNSY3
-SNSY5
-SOJA3
-SOND3
-SOND6
-SRNA3
-SUZB3
-SYNE3
-TAEE11
-TAEE3
-TAEE4
-TASA3
-TASA4
-TCSA3
-TECN3
-TELB3
-TELB4
-TEND3
-TFCO4
-TGMA3
-TIMS3
-TKNO4
-TOKY3
-TOTS3
-TPIS3
-TRAD3
-TRIS3
-TTEN3
-TUPY3
-UCAS3
-UGPA3
-UNIP3
-UNIP5
-UNIP6
-USIM3
-USIM5
-VALE3
-VAMO3
-VBBR3
-VITT3
-VIVA3
-VIVR3
-VIVT3
-VLID3
-VSTE3
-VTRU3
-VULC3
-VVEO3
-WEGE3
-WEST3
-WHRL3
-WHRL4
-WIZC3
-WLMM3
-WLMM4
-YDUQ3
-ZAMP3
+AALR3;Alliança
+ABCB4;Banco ABC Brasil
+ABEV3;Ambev
+ADMF3;REAG TRUST S.A
+AERI3;Aeris Energy
+AFLT3;Afluente T
+AGRO3;BrasilAgro
+AGXY3;AgroGalaxy
+AHEB3;São Paulo Turismo
+ALLD3;Allied
+ALOS3;Allos
+ALPA3;Alpargatas
+ALPA4;Alpargatas
+ALPK3;Estapar
+ALUP11;Alupar
+ALUP3;Alupar
+ALUP4;Alupar
+AMAR11;Lojas Marisa
+AMAR3;Lojas Marisa
+AMBP3;Ambipar
+AMER3;Americanas
+AMOB3;Automob
+ANIM3;Ânima Educação
+ARML3;Armac
+ASAI3;Assaí
+ATED3;ATOM EDUCAÇÃO E EDITORA S.A.
+AURE3;Auren Energia
+AVLL3;Alphaville
+AXIA3;Axia Energia
+AXIA6;Axia Energia
+AZEV11;Azevedo & Travassos
+AZEV3;Azevedo & Travassos
+AZEV4;Azevedo & Travassos
+AZTE3;AZT Energia
+AZUL4;Azul
+AZZA3;Arezzo
+B3SA3;B3
+BALM3;Baumer
+BALM4;Baumer
+BAUH4;Excelsior
+BAZA3;Banco da Amazônia
+BBAS3;Banco do Brasil
+BBDC3;Banco Bradesco
+BBDC4;Banco Bradesco
+BBSE3;BB Seguridade
+BDLL4;Bardella
+BEEF3;Minerva
+BEES3;Banestes
+BEES4;Banestes
+BGIP3;Banese
+BGIP4;Banese
+BHIA3;Casas Bahia
+BIED3;BIED3
+BIOM3;Biomm
+BLAU3;Blau Farmacêutica
+BMEB3;Banco Mercantil do Brasil
+BMEB4;Banco Mercantil do Brasil
+BMGB4;Banco BMG
+BMIN4;Banco Mercantil de Investimentos
+BMKS3;Monark
+BMOB3;Bemobi
+BNBR3;Banco do Nordeste
+BOBR4;Bombril
+BPAC11;Banco BTG Pactual
+BPAC3;Banco BTG Pactual
+BPAC5;Banco BTG Pactual
+BPAN4;Banco Pan
+BRAP3;Bradespar
+BRAP4;Bradespar
+BRAV3;3R Petroleum
+BRBI11;BR Partners
+BRKM3;Braskem
+BRKM5;Braskem
+BRKM6;Braskem
+BRSR3;Banrisul
+BRSR5;Banrisul
+BRSR6;Banrisul
+BRST3;Brisanet
+BSLI3;Banco de Brasília
+BSLI4;Banco de Brasília
+CALI3;Adolpho Lindenberg
+CAMB3;Cambuci
+CAML3;Camil Alimentos
+CASH3;Méliuz
+CBAV3;CBA
+CEAB3;C&A
+CEBR3;CEB
+CEBR5;CEB
+CEBR6;CEB
+CEDO3;Cedro Têxtil
+CEDO4;Cedro Têxtil
+CEEB3;COELBA
+CEED3;CEEE D
+CGAS3;Comgás
+CGAS5;Comgás
+CGRA3;Grazziotin
+CGRA4;Grazziotin
+CLSC3;Celesc
+CLSC4;Celesc
+CMIG3;Cemig
+CMIG4;Cemig
+CMIN3;CSN Mineração
+COCE5;Coelce
+COGN3;Cogna
+CPFE3;CPFL Energia
+CPLE3;Copel
+CPLE5;Copel
+CRPG3;Tronox Pigmentos
+CRPG5;Tronox Pigmentos
+CRPG6;Tronox Pigmentos
+CSAN3;Cosan
+CSED3;Cruzeiro do Sul Educacional
+CSMG3;COPASA
+CSNA3;Siderúrgica Nacional
+CSUD3;CSU Cardsystem
+CTAX3;CTAX3
+CTKA3;Karsten
+CTKA4;Karsten
+CTSA3;Santanense
+CTSA4;Santanense
+CURY3;Cury
+CVCB3;CVC
+CXSE3;Caixa Seguridade
+CYRE3;Cyrela
+DASA3;Dasa
+DESK3;Desktop
+DEXP3;Dexxos
+DEXP4;Dexxos
+DIRR3;Direcional
+DMVF3;D1000 Varejo Farma
+DOHL3;Döhler
+DOHL4;Döhler
+DOTZ3;Dotz
+DTCY3;Dtcom
+DXCO3;Dexco
+EALT3;Electro Aço Altona
+EALT4;Electro Aço Altona
+ECOR3;EcoRodovias
+EGIE3;Engie
+EKTR3;Elektro
+EKTR4;Elektro
+EMAE4;EMAE
+EMBJ3;Embraer
+ENEV3;Eneva
+ENGI11;Energisa
+ENGI3;Energisa
+ENGI4;Energisa
+ENJU3;Enjoei
+ENMT3;Energisa MT
+ENMT4;Energisa MT
+EPAR3;Embpar Participações
+EQMA3B;Equatorial Maranhão
+EQPA3;Equatorial Energia Pará
+EQTL3;Equatorial Energia
+ESPA3;Espaçolaser
+ESTR4;Estrela
+ETER3;Eternit
+EUCA3;Eucatex
+EUCA4;Eucatex
+EVEN3;Even
+EZTC3;EZTEC
+FESA3;Ferbasa
+FESA4;Ferbasa
+FHER3;Fertilizantes Heringer
+FICT3;Fictor Alimentos
+FIEI3;Fica
+FIQE3;Unifique
+FLRY3;Fleury
+FRAS3;Fras-le
+GEPA3;Rio Paranapanema Energia
+GEPA4;Rio Paranapanema Energia
+GFSA3;Gafisa
+GGBR3;Gerdau
+GGBR4;Gerdau
+GGPS3;GPS
+GMAT3;Grupo Mateus
+GOAU3;Metalúrgica Gerdau
+GOAU4;Metalúrgica Gerdau
+GRND3;Grendene
+GSHP3;General Shopping & Outlets
+GUAR3;Guararapes
+HAGA3;Haga
+HAGA4;Haga
+HAPV3;Hapvida
+HBOR3;Helbor
+HBRE3;HBR Realty
+HBSA3;Hidrovias do Brasil
+HBTS5;Habitasul
+HETA4;Hercules
+HOOT4;Hotéis Othon
+HYPE3;Hypera
+IFCM3;Infracommerce
+IGTI11;Jereissati Participações
+IGTI3;Iguatemi
+IGTI4;Jereissati Participações
+INEP3;Inepar
+INEP4;Inepar
+INTB3;Intelbras
+IRBR3;IRB Brasil RE
+ISAE3;ISA Energia
+ISAE4;ISA Energia
+ITSA3;Itaúsa
+ITSA4;Itaúsa
+ITUB3;Itaú Unibanco
+ITUB4;Itaú Unibanco
+JALL3;Jalles Machado
+JFEN3;João Fortes
+JHSF3;JHSF
+JOPA3;Josapar
+JSLG3;JSL
+KEPL3;Kepler Weber
+KLBN11;Klabin
+KLBN3;Klabin
+KLBN4;Klabin
+LAND3;Terra Santa
+LAVV3;Lavvi Incorporadora
+LEVE3;Mahle Metal Leve
+LIGT3;Light
+LJQQ3;Lojas Quero-Quero
+LOGG3;LOG CP
+LOGN3;Log-In
+LPSB3;Lopes
+LREN3;Lojas Renner
+LUPA3;Lupatech
+LUXM4;Trevisa
+LWSA3;Locaweb
+MAPT3;Cemepe
+MAPT4;Cemepe
+MATD3;Mater Dei
+MBRF3;Marfrig
+MDIA3;M. Dias Branco
+MDNE3;Moura Dubeux
+MEAL3;IMC Alimentação
+MELK3;Melnick
+MERC3;Mercantil do Brasil Financeira
+MERC4;Mercantil do Brasil Financeira
+MGEL4;Mangels
+MGLU3;Magazine Luiza
+MILS3;Mills
+MLAS3;Multilaser
+MNDL3;Mundial
+MNPR3;Minupar
+MOAR3;Monteiro Aranha
+MOTV3;Motiva
+MOVI3;Movida
+MRSA3B;MRS Logística
+MRSA5B;MRS Logística
+MRSA6B;MRS Logística
+MRVE3;MRV
+MSPA3;Melhoramentos
+MSPA4;Melhoramentos
+MTRE3;Mitre Realty
+MTSA4;Metisa
+MULT3;Multiplan
+MWET3;Wetzel
+MWET4;Wetzel
+MYPK3;Iochpe-Maxion
+NATU3;NATURA
+NEOE3;Neoenergia
+NEXP3;Brasil Brokers
+NGRD3;Neogrid
+NORD3;Nordon
+NUTR3;Nutriplant
+ODPV3;Odontoprev
+OFSA3;Ourofino Saúde Animal
+OIBR3;Oi
+OIBR4;Oi
+ONCO3;Oncoclínicas
+OPCT3;OceanPact
+ORVR3;Orizon
+OSXB3;OSX Brasil
+PATI3;Panatlântica
+PATI4;Panatlântica
+PCAR3;Grupo Pão de Açúcar
+PDGR3;PDG Realty
+PDTC3;Padtec
+PEAB3;Participações Aliança da Bahia
+PEAB4;Participações Aliança da Bahia
+PETR3;Petrobras
+PETR4;Petrobras
+PETZ3;Petz
+PFRM3;Profarma
+PGMN3;Pague Menos
+PINE11;Banco Pine
+PINE3;Banco Pine
+PINE4;Banco Pine
+PLAS3;Plascar
+PLPL3;Plano&Plano
+PMAM3;Paranapanema
+PNVL3;Dimed
+POMO3;Marcopolo
+POMO4;Marcopolo
+PORT3;Wilson Sons
+POSI3;Positivo
+PPLA11;PPLA
+PRIO3;PetroRio
+PRNR3;Priner
+PSSA3;Porto Seguro
+PSVM11;PORTO VM
+PTBL3;Portobello
+PTNT3;Pettenati
+PTNT4;Pettenati
+QUAL3;Qualicorp
+RADL3;RaiaDrogasil
+RAIL3;Rumo
+RAIZ4;Raízen
+RANI3;Irani
+RAPT3;Randon
+RAPT4;Randon
+RCSL3;Recrusul
+RCSL4;Recrusul
+RDNI3;RNI
+RDOR3;Rede D'Or
+REAG3;REAG3
+RECV3;PetroRecôncavo
+REDE3;Rede Energia
+RENT3;Localiza
+RNEW3;Renova Energia
+RNEW4;Renova Energia
+ROMI3;Indústrias ROMI
+RPAD5;Alfa Holdings
+RPMG3;Refinaria de Manguinhos
+RSID3;Rossi Residencial
+RSUL4;Metalúrgica Riosulense
+RVEE3;REVEE S.A.
+SANB11;Banco Santander
+SANB3;Banco Santander
+SANB4;Banco Santander
+SAPR11;Sanepar
+SAPR3;Sanepar
+SAPR4;Sanepar
+SBFG3;Grupo SBF
+SBSP3;Sabesp
+SCAR3;São Carlos
+SEER3;Ser Educacional
+SEQL3;Sequoia Logística
+SHOW3;Time For Fun
+SHUL4;Schulz
+SIMH3;Simpar
+SLCE3;SLC Agrícola
+SMFT3;Smart Fit
+SMTO3;São Martinho
+SNSY3;Sansuy
+SNSY5;Sansuy
+SOJA3;Boa Safra Sementes
+SOND3;Sondotécnica
+SOND6;Sondotécnica
+SRNA3;Serena Energia
+SUZB3;Suzano
+SYNE3;SYN
+TAEE11;Taesa
+TAEE3;Taesa
+TAEE4;Taesa
+TASA3;Taurus
+TASA4;Taurus
+TCSA3;Tecnisa
+TECN3;Technos
+TELB3;Telebras
+TELB4;Telebras
+TEND3;Construtora Tenda
+TFCO4;Track & Field
+TGMA3;Tegma
+TIMS3;TIM
+TKNO4;Tekno
+TOKY3;TOKY3
+TOTS3;Totvs
+TPIS3;Triunfo
+TRAD3;Traders Club
+TRIS3;Trisul
+TTEN3;3tentos
+TUPY3;Tupy
+UCAS3;Unicasa
+UGPA3;Ultrapar
+UNIP3;Unipar
+UNIP5;Unipar
+UNIP6;Unipar
+USIM3;Usiminas
+USIM5;Usiminas
+VALE3;Vale
+VAMO3;Grupo Vamos
+VBBR3;Vibra Energia
+VITT3;Vittia
+VIVA3;Vivara
+VIVR3;Viver
+VIVT3;Vivo
+VLID3;Valid
+VSTE3;LE LIS BLANC
+VTRU3;VITRUBREPCOM
+VULC3;Vulcabras
+VVEO3;Viveo
+WEGE3;WEG
+WEST3;Westwing
+WHRL3;Whirlpool
+WHRL4;Whirlpool
+WIZC3;Wiz Soluções
+WLMM3;WLM
+WLMM4;WLM
+YDUQ3;YDUQS
+ZAMP3;Zamp
