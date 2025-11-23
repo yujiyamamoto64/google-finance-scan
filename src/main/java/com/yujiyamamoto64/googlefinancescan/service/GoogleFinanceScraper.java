@@ -216,6 +216,10 @@ public class GoogleFinanceScraper {
 				if (sibling != null) {
 					return parseOptionalNumeric(sibling.text());
 				}
+				Double nearby = extractNearbyNumeric(genericLabel);
+				if (nearby != null) {
+					return nearby;
+				}
 			}
 		}
 
@@ -249,6 +253,70 @@ public class GoogleFinanceScraper {
 			.replaceAll("[^\\p{Alnum}]+", "")
 			.toLowerCase(Locale.ROOT);
 		return normalized;
+	}
+
+	private Double extractNearbyNumeric(Element labelEl) {
+		if (labelEl == null) {
+			return null;
+		}
+
+		// direct next siblings
+		Element sibling = labelEl.nextElementSibling();
+		while (sibling != null) {
+			Double parsed = parseOptionalNumeric(sibling.text());
+			if (parsed != null) {
+				return parsed;
+			}
+			Double nested = findNumericInDescendants(sibling);
+			if (nested != null) {
+				return nested;
+			}
+			sibling = sibling.nextElementSibling();
+		}
+
+		// same parent other children
+		Element parent = labelEl.parent();
+		if (parent != null) {
+			for (Element child : parent.children()) {
+				if (child == labelEl) continue;
+				Double parsed = parseOptionalNumeric(child.text());
+				if (parsed != null) {
+					return parsed;
+				}
+				Double nested = findNumericInDescendants(child);
+				if (nested != null) {
+					return nested;
+				}
+			}
+		}
+
+		// ancestors scan
+		Element ancestor = parent;
+		int hops = 0;
+		while (ancestor != null && hops < 3) {
+			Double parsed = findNumericInDescendants(ancestor);
+			if (parsed != null) {
+				return parsed;
+			}
+			ancestor = ancestor.parent();
+			hops++;
+		}
+
+		return null;
+	}
+
+	private Double findNumericInDescendants(Element root) {
+		if (root == null) {
+			return null;
+		}
+		for (Element el : root.getAllElements()) {
+			if (el == root) continue;
+			Double parsed = parseOptionalNumeric(el.text());
+			if (parsed != null) {
+				return parsed;
+			}
+		}
+		return null;
 	}
 
 	private Double derivePriceToBook(Double parsedPriceToBook, double price, Double equity, Double sharesOutstanding) {
