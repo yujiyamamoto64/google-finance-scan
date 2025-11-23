@@ -5,7 +5,6 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 import java.util.Optional;
-import java.util.regex.Pattern;
 
 import org.jsoup.Connection;
 import org.jsoup.HttpStatusException;
@@ -19,18 +18,20 @@ import com.yujiyamamoto64.googlefinancescan.model.StockIndicators;
 @Service
 public class GoogleFinanceScraper {
 
-	private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0 Safari/537.36";
+	private static final String USER_AGENT =
+		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0 Safari/537.36";
 
 	public StockIndicators fetchIndicators(String ticker, String exchange) {
 		String normalizedExchange = Optional.ofNullable(exchange).filter(s -> !s.isBlank()).orElse("BVMF");
 		String url = "https://www.google.com/finance/quote/" + ticker + ":" + normalizedExchange;
 
 		try {
-			Document doc = Jsoup.connect(url)
-					.userAgent(USER_AGENT)
-					.timeout(20_000)
-					.followRedirects(true)
-					.get();
+			Connection connection = Jsoup.connect(url)
+				.userAgent(USER_AGENT)
+				.timeout(20_000)
+				.followRedirects(true);
+
+			Document doc = connection.get();
 
 			double price = parsePrice(doc);
 			Double changePercent = parseChangePercent(doc);
@@ -41,117 +42,148 @@ public class GoogleFinanceScraper {
 			Double marketCap = parseStat(doc, "Market cap", "Valor de mercado");
 
 			Double priceToBook = parseStat(doc, "Price to book", "P/VP", "P/VPA");
-			Double equity = parseStat(doc, "Shareholders' equity", "Patrimônio líquido", "Capital próprio");
+			Double equity = parseStat(doc,
+				"Shareholders' equity",
+				"Patrimonio liquido",
+				"Patrimonio l\u00edquido",
+				"Capital proprio",
+				"Capital pr\u00f3prio"
+			);
 
-			Double pe = parseStat(doc, "P/E ratio", "P/L");
+			Double peRatio = parseStat(doc, "P/E ratio", "P/L", "Price to earnings");
 			Double ebitdaMargin = parseStat(doc, "EBITDA margin", "Margem EBITDA");
 
 			Double roe = parseStat(doc,
-					"ROE",
-					"Return on equity",
-					"Retorno sobre patrimônio",
-					"Retorno sobre capital próprio",
-					"Retorno sobre PL");
+				"ROE",
+				"Return on equity",
+				"Retorno sobre patrimonio",
+				"Retorno sobre patrim\u00f4nio",
+				"Retorno sobre capital proprio",
+				"Retorno sobre capital pr\u00f3prio",
+				"Retorno sobre PL",
+				"Retorno sobre capital"
+			);
 
 			Double debtToEquity = parseStat(doc, "Debt / equity", "Debt to equity");
 
-			Double eps = parseStat(doc, "EPS", "Earnings per share", "EPS (TTM)");
+			Double eps = parseStat(doc, "EPS", "Earnings per share", "EPS (TTM)", "LPA");
 
-			Double sharesOutstanding = parseSharesOutstanding(doc);
+			Double sharesOutstanding = parseStat(doc,
+				"Shares outstanding",
+				"Acoes em circulacao",
+				"A\u00e7\u00f5es em circula\u00e7\u00e3o",
+				"Total shares",
+				"Total de acoes",
+				"Total de a\u00e7\u00f5es",
+				"Acoes emitidas",
+				"A\u00e7\u00f5es emitidas",
+				"Shares"
+			);
 
-			Double dividendYield = parseStat(doc, "Dividend yield", "Dividendos");
+			Double dividendYield = parseStat(doc, "Dividend yield", "Dividendos", "Dividend Yield");
 
 			Double derivedPriceToBook = derivePriceToBook(priceToBook, price, equity, sharesOutstanding);
 
 			return new StockIndicators(
-					ticker,
-					normalizedExchange,
-					currency,
-					price,
-					changePercent,
-					companyName,
-					sector,
-					marketCap,
-					derivedPriceToBook,
-					pe,
-					ebitdaMargin,
-					roe,
-					debtToEquity,
-					eps,
-					sharesOutstanding,
-					dividendYield);
-
-		} catch (HttpStatusException e) {
-			throw new IllegalStateException("Google Finance retornou status " + e.getStatusCode() + " para " + ticker,
-					e);
-		} catch (IOException | ParseException e) {
-			throw new IllegalStateException("Erro ao acessar Google Finance: " + e.getMessage(), e);
+				ticker,
+				normalizedExchange,
+				currency,
+				price,
+				changePercent,
+				companyName,
+				sector,
+				marketCap,
+				derivedPriceToBook,
+				peRatio,
+				ebitdaMargin,
+				roe,
+				debtToEquity,
+				eps,
+				sharesOutstanding,
+				dividendYield
+			);
+		} catch (HttpStatusException ex) {
+			throw new IllegalStateException("Google Finance retornou status " + ex.getStatusCode() + " para " + ticker, ex);
+		} catch (IOException | ParseException ex) {
+			throw new IllegalStateException("Falha ao acessar Google Finance: " + ex.getMessage(), ex);
 		}
 	}
 
-	// ============================
-	// PARSERS PRINCIPAIS
-	// ============================
-
 	private double parsePrice(Document doc) throws ParseException {
 		Element priceEl = Optional.ofNullable(doc.selectFirst("div.YMlKec.fxKbKc"))
-				.orElse(doc.selectFirst(".YMlKec"));
-		if (priceEl == null)
-			throw new IllegalStateException("Não encontrei o preço.");
+			.orElse(doc.selectFirst(".YMlKec"));
+		if (priceEl == null) {
+			throw new IllegalStateException("Nao foi possivel localizar o preco atual da acao.");
+		}
 		return parseNumeric(priceEl.text());
 	}
 
 	private Double parseChangePercent(Document doc) {
-		Element el = doc.select("div.zWwE1 .JwB6zf, span.JwB6zf").first();
-		return el != null ? parseOptionalNumeric(el.text()) : null;
+		Element changeEl = doc.select("div.zWwE1 .JwB6zf, span.JwB6zf").first();
+		if (changeEl != null) {
+			return parseOptionalNumeric(changeEl.text());
+		}
+		return null;
 	}
 
 	private String guessCurrency(Document doc, String exchange) {
-		Element priceEl = doc.selectFirst(".YMlKec");
+		Element priceEl = Optional.ofNullable(doc.selectFirst("div.YMlKec.fxKbKc"))
+			.orElse(doc.selectFirst(".YMlKec"));
 		if (priceEl != null) {
 			String text = priceEl.text().trim();
-			if (text.startsWith("R$"))
-				return "BRL";
-			if (text.startsWith("$"))
-				return "USD";
-			if (text.startsWith("€"))
-				return "EUR";
+			String prefix = text.replaceFirst("[\\d].*$", "").trim();
+			if (!prefix.isEmpty()) {
+				if (prefix.contains("R$")) return "BRL";
+				if (prefix.contains("$")) return "USD";
+				if (prefix.contains("\u20ac")) return "EUR";
+			}
 		}
-		return exchange.equalsIgnoreCase("BVMF") ? "BRL" : "USD";
+		return "BVMF".equalsIgnoreCase(exchange) ? "BRL" : "USD";
 	}
 
 	private String parseCompanyName(Document doc, String fallback) {
-		Element el = doc.selectFirst("div.zzDege, div.e1AOyf h1");
-		return el != null ? el.text() : fallback;
+		Element nameEl = doc.selectFirst("div.zzDege, div.e1AOyf h1, div.e1AOyf .zzDege, div.e1AOyf div.eYanAe");
+		if (nameEl != null && !nameEl.text().isBlank()) {
+			return nameEl.text();
+		}
+		return fallback;
 	}
 
 	private String parseSector(Document doc) {
-		Element el = doc.selectFirst("*:matchesOwn(^Sector$)");
-		if (el != null && el.nextElementSibling() != null)
-			return el.nextElementSibling().text();
-
+		Element sectorLabel = doc.select("*:matchesOwn((?i)^Sector$)").first();
+		if (sectorLabel != null) {
+			Element sibling = sectorLabel.nextElementSibling();
+			if (sibling != null && !sibling.text().isBlank()) {
+				return sibling.text();
+			}
+		}
 		Element meta = doc.selectFirst("meta[name=description]");
-		return meta != null ? meta.attr("content") : null;
+		if (meta != null) {
+			String content = meta.attr("content");
+			if (content != null && !content.isBlank()) {
+				return content;
+			}
+		}
+		return null;
 	}
 
-	// ====================================================
-	// FUNÇÃO MAIS IMPORTANTE — PARSE SEGURO DE INDICADOR
-	// ====================================================
 	private Double parseStat(Document doc, String... labels) {
+		if (labels == null) {
+			return null;
+		}
 		for (String label : labels) {
 			Double val = parseStatSingle(doc, label);
-			if (val != null)
+			if (val != null) {
 				return val;
+			}
 		}
 		return null;
 	}
 
 	private Double parseStatSingle(Document doc, String label) {
+		String esc = cssEscape(label);
 
-		String regex = Pattern.quote(label);
-
-		// 1. Padrão novo do Google Finance
-		Element row = doc.selectFirst("div.P6K39c:has(div.mfs7Fc:matchesOwn(" + regex + "))");
+		Element row = doc.selectFirst("div.P6K39c:has(div.mfs7Fc:containsOwn(" + esc + "))");
 		if (row != null) {
 			Element value = row.selectFirst("div[jsname=U8sYAd]");
 			if (value != null && !value.text().isBlank()) {
@@ -159,10 +191,9 @@ public class GoogleFinanceScraper {
 			}
 		}
 
-		// 2. Fallback seguro
-		Element labelEl = doc.selectFirst("*:matchesOwn(" + regex + ")");
-		if (labelEl != null) {
-			Element sibling = labelEl.parent().selectFirst("div[jsname=U8sYAd]");
+		Element genericLabel = doc.selectFirst("*:containsOwn(" + esc + ")");
+		if (genericLabel != null) {
+			Element sibling = genericLabel.parent().selectFirst("div[jsname=U8sYAd]");
 			if (sibling != null) {
 				return parseOptionalNumeric(sibling.text());
 			}
@@ -171,100 +202,80 @@ public class GoogleFinanceScraper {
 		return null;
 	}
 
-	// ============================
-	// SHARES OUTSTANDING — FIX REAL
-	// ============================
-
-	private Double parseSharesOutstanding(Document doc) {
-		Double raw = parseStat(doc,
-				"Shares outstanding",
-				"Ações em circulação",
-				"Acoes em circulacao",
-				"Total shares",
-				"Total de ações",
-				"Ações emitidas",
-				"Shares");
-
-		if (raw == null)
+	private Double derivePriceToBook(Double parsedPriceToBook, double price, Double equity, Double sharesOutstanding) {
+		if (parsedPriceToBook != null) {
+			return parsedPriceToBook;
+		}
+		if (equity == null || sharesOutstanding == null || sharesOutstanding <= 0) {
 			return null;
-
-		// ⚠ Ações não podem ter valor negativo ou muito pequeno
-		if (raw < 1_000_000)
+		}
+		double bookValuePerShare = equity / sharesOutstanding;
+		if (bookValuePerShare <= 0) {
 			return null;
-
-		return raw;
+		}
+		return price / bookValuePerShare;
 	}
-
-	// ============================
-	// P/VP por derivação
-	// ============================
-
-	private Double derivePriceToBook(Double pvb, double price, Double equity, Double shares) {
-		if (pvb != null)
-			return pvb;
-		if (equity == null || shares == null || shares <= 0)
-			return null;
-
-		double bookValue = equity / shares;
-		if (bookValue <= 0)
-			return null;
-
-		return price / bookValue;
-	}
-
-	// ============================
-	// PARSER NUMÉRICO ROBUSTO
-	// ============================
 
 	private Double parseOptionalNumeric(String raw) {
+		if (raw == null || raw.isBlank() || "?".equals(raw.trim())) {
+			return null;
+		}
 		try {
 			return parseNumeric(raw);
-		} catch (Exception e) {
+		} catch (IllegalStateException | ParseException ex) {
 			return null;
 		}
 	}
 
 	private double parseNumeric(String raw) throws ParseException {
-		String cleaned = raw
-				.replace("\u00a0", "")
-				.replace("%", "")
-				.trim();
+		String cleaned = raw.replace("\u00a0", "").trim();
+		boolean isPercent = cleaned.endsWith("%");
+		if (isPercent) {
+			cleaned = cleaned.substring(0, cleaned.length() - 1);
+		}
 
-		// Suporte a "2,3 bi", "400 milhões"
 		cleaned = cleaned.toLowerCase()
-				.replace("bi", "B")
-				.replace("b", "B")
-				.replace("milhões", "M")
-				.replace("mi", "M")
-				.replace("m", "M");
+			.replace(" bi", "B").replace("b", "B")
+			.replace(" mi", "M").replace("m", "M")
+			.replace(" mil", "K");
 
-		boolean isPercent = raw.endsWith("%");
-
-		double mult = 1;
+		double multiplier = 1.0;
 		if (cleaned.endsWith("T")) {
-			mult = 1_000_000_000_000D;
-			cleaned = cleaned.replace("T", "");
-		}
-		if (cleaned.endsWith("B")) {
-			mult = 1_000_000_000D;
-			cleaned = cleaned.replace("B", "");
-		}
-		if (cleaned.endsWith("M")) {
-			mult = 1_000_000D;
-			cleaned = cleaned.replace("M", "");
-		}
-		if (cleaned.endsWith("K")) {
-			mult = 1_000D;
-			cleaned = cleaned.replace("K", "");
+			multiplier = 1_000_000_000_000D;
+			cleaned = cleaned.substring(0, cleaned.length() - 1);
+		} else if (cleaned.endsWith("B")) {
+			multiplier = 1_000_000_000D;
+			cleaned = cleaned.substring(0, cleaned.length() - 1);
+		} else if (cleaned.endsWith("M")) {
+			multiplier = 1_000_000D;
+			cleaned = cleaned.substring(0, cleaned.length() - 1);
+		} else if (cleaned.endsWith("K")) {
+			multiplier = 1_000D;
+			cleaned = cleaned.substring(0, cleaned.length() - 1);
 		}
 
 		cleaned = cleaned.replaceAll("[^\\d,\\.\\-]", "");
-		if (cleaned.contains(",") && cleaned.contains("."))
+		if (cleaned.contains(",") && cleaned.contains(".")) {
 			cleaned = cleaned.replace(",", "");
-		else
+		} else {
 			cleaned = cleaned.replace(",", ".");
+		}
 
-		Number n = NumberFormat.getNumberInstance(Locale.US).parse(cleaned);
-		return n.doubleValue() * mult;
+		if (cleaned.isBlank()) {
+			throw new ParseException("Valor vazio apos limpeza: " + raw, 0);
+		}
+
+		Number number = NumberFormat.getNumberInstance(Locale.US).parse(cleaned);
+		double value = number.doubleValue() * multiplier;
+		return isPercent ? value : value;
+	}
+
+	private String cssEscape(String label) {
+		return label
+			.replace("\\", "\\\\")
+			.replace("(", "\\(")
+			.replace(")", "\\)")
+			.replace("'", "\\'")
+			.replace("\"", "\\\"");
 	}
 }
