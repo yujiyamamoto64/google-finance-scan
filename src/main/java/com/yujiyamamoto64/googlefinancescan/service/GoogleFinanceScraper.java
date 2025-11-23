@@ -39,26 +39,23 @@ public class GoogleFinanceScraper {
 			String currency = guessCurrency(doc, normalizedExchange);
 			String companyName = parseCompanyName(doc, ticker);
 			String sector = parseSector(doc);
-			Double marketCap = parseStat(doc, "Market cap");
+			Double marketCap = parseStat(doc, "Market cap", "Valor de mercado");
 
-			Double priceToBook = parseStat(doc, "Price to book");
-			Double equity = firstNonNull(
-				parseStat(doc, "Capital próprio"),
-				parseStat(doc, "Patrimônio líquido"),
-				parseStat(doc, "Total equity"),
-				parseStat(doc, "Shareholders' equity")
+			Double priceToBook = parseStat(doc, "Price to book", "P/VP", "P/VPA", "Price/book", "Price to book value");
+			Double equity = parseStat(doc,
+				"Capital próprio",
+				"Patrimônio líquido",
+				"Total equity",
+				"Shareholders' equity",
+				"Patrimonio liquido"
 			);
-			Double peRatio = parseStat(doc, "P/E ratio");
-			Double ebitdaMargin = parseStat(doc, "EBITDA margin");
-			Double roe = parseStat(doc, "Return on equity");
-			Double debtToEquity = parseStat(doc, "Debt / equity");
-			Double eps = firstNonNull(
-				parseStat(doc, "EPS"),
-				parseStat(doc, "Earnings per share"),
-				parseStat(doc, "EPS (TTM)")
-			);
-			Double sharesOutstanding = parseStat(doc, "Shares outstanding");
-			Double dividendYield = parseStat(doc, "Dividend yield");
+			Double peRatio = parseStat(doc, "P/E ratio", "P/L", "Price to earnings");
+			Double ebitdaMargin = parseStat(doc, "EBITDA margin", "Margem EBITDA");
+			Double roe = parseStat(doc, "Return on equity", "ROE");
+			Double debtToEquity = parseStat(doc, "Debt / equity", "Debt to equity");
+			Double eps = parseStat(doc, "EPS", "Earnings per share", "EPS (TTM)", "LPA");
+			Double sharesOutstanding = parseStat(doc, "Shares outstanding", "Ações em circulação", "Acoes em circulacao");
+			Double dividendYield = parseStat(doc, "Dividend yield", "Dividendos", "Dividend Yield");
 			Double derivedPriceToBook = derivePriceToBook(priceToBook, price, equity, sharesOutstanding);
 
 			return new StockIndicators(
@@ -157,7 +154,20 @@ public class GoogleFinanceScraper {
 		return null;
 	}
 
-	private Double parseStat(Document doc, String label) {
+	private Double parseStat(Document doc, String... labels) {
+		if (labels == null || labels.length == 0) {
+			return null;
+		}
+		for (String label : labels) {
+			Double val = parseStatSingle(doc, label);
+			if (val != null) {
+				return val;
+			}
+		}
+		return null;
+	}
+
+	private Double parseStatSingle(Document doc, String label) {
 		String escapedLabel = escapeLabel(label);
 		// 1. Padrão principal do Google Finance atual (2024/2025)
 		Element row = doc.selectFirst("div.P6K39c:has(div.mfs7Fc:matchesOwn(" + escapedLabel + "))");
