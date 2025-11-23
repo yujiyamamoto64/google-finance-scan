@@ -18,42 +18,39 @@ public class ScoringService {
 
 		double pvbPoints = scoreLowerIsBetter(indicators.getPriceToBook(), 1.0, 3.0, 25);
 		total += pvbPoints;
-		parts.add(new ScoreBreakdown("PreÃ§o/Valor Patrimonial", indicators.getPriceToBook(), 25, pvbPoints,
+		parts.add(new ScoreBreakdown("Preço/Valor Patrimonial", indicators.getPriceToBook(), 25, pvbPoints,
 			"P/VPA <= 1,0 ganha todos os pontos; acima de 3,0 perde todos."));
 
-		double roaPoints = scoreHigherIsBetter(indicators.getReturnOnAssets(), 8.0, 20.0, 20);
-		total += roaPoints;
-		parts.add(new ScoreBreakdown("Return on Assets (%)", indicators.getReturnOnAssets(), 20, roaPoints,
-			"ROA acima de 20% maximiza a nota; abaixo de 8% perde pontos."));
+		double ebitdaPoints = scoreHigherIsBetter(indicators.getEbitdaMargin(), 10.0, 30.0, 20);
+		total += ebitdaPoints;
+		parts.add(new ScoreBreakdown("EBITDA margin (%)", indicators.getEbitdaMargin(), 20, ebitdaPoints,
+			"EBITDA margin acima de 30% leva nota máxima; abaixo de 10% zera."));
 
-		double rocPoints = scoreHigherIsBetter(indicators.getReturnOnCapital(), 10.0, 25.0, 20);
-		total += rocPoints;
-		parts.add(new ScoreBreakdown("Return on Capital (%)", indicators.getReturnOnCapital(), 20, rocPoints,
-			"ROC acima de 25% leva nota mÃ¡xima; abaixo de 10% zera."));
+		double roePoints = scoreHigherIsBetter(indicators.getRoe(), 8.0, 20.0, 20);
+		total += roePoints;
+		parts.add(new ScoreBreakdown("ROE (%)", indicators.getRoe(), 20, roePoints,
+			"ROE acima de 20% maximiza a nota; abaixo de 8% perde pontos."));
 
-		Double liabilities = indicators.getTotalLiabilities();
-		Double assets = indicators.getTotalAssets();
-		Double leverage = (assets != null && assets > 0 && liabilities != null) ? liabilities / assets : null;
-		double leveragePoints = scoreLowerIsBetter(leverage, 0.5, 1.0, 15);
-		total += leveragePoints;
-		parts.add(new ScoreBreakdown("Alavancagem (Passivo/Ativo)", leverage, 15, leveragePoints,
-			"<=0,5 Ã© excelente; >=1,0 consome todos os pontos deste critÃ©rio."));
+		double debtEquityPoints = scoreLowerIsBetter(indicators.getDebtToEquity(), 0.5, 2.0, 15);
+		total += debtEquityPoints;
+		parts.add(new ScoreBreakdown("Alavancagem (Debt/Equity)", indicators.getDebtToEquity(), 15, debtEquityPoints,
+			"<=0,5 é excelente; >=2,0 consome todos os pontos deste critério."));
 
-		double incomePoints = (indicators.getNetIncome() != null && indicators.getNetIncome() > 0) ? 10 : 0;
-		total += incomePoints;
-		parts.add(new ScoreBreakdown("Lucro lÃ­quido positivo", indicators.getNetIncome(), 10, incomePoints,
-			incomePoints > 0 ? "Lucro positivo soma estabilidade." : "Lucro negativo retira pontos."));
+		double epsPoints = (indicators.getEps() != null && indicators.getEps() > 0) ? 10 : 0;
+		total += epsPoints;
+		parts.add(new ScoreBreakdown("EPS positivo", indicators.getEps(), 10, epsPoints,
+			epsPoints > 0 ? "EPS > 0 soma estabilidade." : "EPS negativo zera este critério."));
 
 		double dividendPoints = scoreHigherIsBetter(indicators.getDividendYield(), 2.0, 8.0, 5);
 		total += dividendPoints;
 		parts.add(new ScoreBreakdown("Dividend Yield (%)", indicators.getDividendYield(), 5, dividendPoints,
 			"Yield alto melhora o score, limitado a 8%."));
 
-		// Pontos restantes para estabilidade de preÃ§o (proxy simples: ausÃªncia de dados -> neutro).
-		double resiliencePoints = 5; // bÃ´nus fixo, evita score muito baixo se demais dados faltarem.
+		// Pontos restantes para estabilidade de preço (proxy simples: ausência de dados -> neutro).
+		double resiliencePoints = 5; // bônus fixo, evita score muito baixo se demais dados faltarem.
 		total += resiliencePoints;
-		parts.add(new ScoreBreakdown("BÃ´nus de estabilidade", null, 5, resiliencePoints,
-			"Pequeno bÃ´nus para compensar eventuais dados ausentes."));
+		parts.add(new ScoreBreakdown("Bônus de estabilidade", null, 5, resiliencePoints,
+			"Pequeno bônus para compensar eventuais dados ausentes."));
 
 		double capped = Math.min(100.0, Math.round(total * 10) / 10.0);
 		String verdict = verdict(capped);

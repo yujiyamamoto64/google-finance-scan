@@ -42,11 +42,14 @@ public class GoogleFinanceScraper {
 			Double marketCap = parseStat(doc, "Market cap");
 
 			Double priceToBook = parseStat(doc, "Price to book");
-			Double returnOnAssets = parseStat(doc, "Return on assets");
-			Double returnOnCapital = parseStat(doc, "Return on capital");
-			Double totalAssets = parseStat(doc, "Total assets");
-			Double totalLiabilities = parseStat(doc, "Total liabilities");
-			Double netIncome = parseStat(doc, "Net income");
+			Double ebitdaMargin = parseStat(doc, "EBITDA margin");
+			Double roe = parseStat(doc, "Return on equity");
+			Double debtToEquity = parseStat(doc, "Debt / equity");
+			Double eps = firstNonNull(
+				parseStat(doc, "EPS"),
+				parseStat(doc, "Earnings per share"),
+				parseStat(doc, "EPS (TTM)")
+			);
 			Double sharesOutstanding = parseStat(doc, "Shares outstanding");
 			Double dividendYield = parseStat(doc, "Dividend yield");
 
@@ -60,11 +63,10 @@ public class GoogleFinanceScraper {
 				sector,
 				marketCap,
 				priceToBook,
-				returnOnAssets,
-				returnOnCapital,
-				totalAssets,
-				totalLiabilities,
-				netIncome,
+				ebitdaMargin,
+				roe,
+				debtToEquity,
+				eps,
 				sharesOutstanding,
 				dividendYield
 			);
@@ -223,5 +225,15 @@ public class GoogleFinanceScraper {
 		Number number = NumberFormat.getNumberInstance(Locale.US).parse(cleaned);
 		double value = number.doubleValue() * multiplier;
 		return isPercent ? value : value;
+	}
+
+	@SafeVarargs
+	private final <T> T firstNonNull(T... values) {
+		for (T v : values) {
+			if (v != null) {
+				return v;
+			}
+		}
+		return null;
 	}
 }

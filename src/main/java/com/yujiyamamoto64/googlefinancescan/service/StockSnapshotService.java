@@ -35,11 +35,10 @@ public class StockSnapshotService {
 		snap.setChangePercent(indicators.getChangePercent());
 		snap.setMarketCap(indicators.getMarketCap());
 		snap.setPriceToBook(indicators.getPriceToBook());
-		snap.setReturnOnAssets(indicators.getReturnOnAssets());
-		snap.setReturnOnCapital(indicators.getReturnOnCapital());
-		snap.setTotalAssets(indicators.getTotalAssets());
-		snap.setTotalLiabilities(indicators.getTotalLiabilities());
-		snap.setNetIncome(indicators.getNetIncome());
+		snap.setEbitdaMargin(indicators.getEbitdaMargin());
+		snap.setRoe(indicators.getRoe());
+		snap.setDebtToEquity(indicators.getDebtToEquity());
+		snap.setEps(indicators.getEps());
 		snap.setSharesOutstanding(indicators.getSharesOutstanding());
 		snap.setDividendYield(indicators.getDividendYield());
 		snap.setScore(score);

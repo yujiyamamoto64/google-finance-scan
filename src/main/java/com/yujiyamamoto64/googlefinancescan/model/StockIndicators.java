@@ -12,11 +12,10 @@ public class StockIndicators {
 	private final String sector;
 	private final Double marketCap;
 	private final Double priceToBook;
-	private final Double returnOnAssets;
-	private final Double returnOnCapital;
-	private final Double totalAssets;
-	private final Double totalLiabilities;
-	private final Double netIncome;
+	private final Double ebitdaMargin;
+	private final Double roe;
+	private final Double debtToEquity;
+	private final Double eps;
 	private final Double sharesOutstanding;
 	private final Double dividendYield;
 
@@ -30,11 +29,10 @@ public class StockIndicators {
 		String sector,
 		Double marketCap,
 		Double priceToBook,
-		Double returnOnAssets,
-		Double returnOnCapital,
-		Double totalAssets,
-		Double totalLiabilities,
-		Double netIncome,
+		Double ebitdaMargin,
+		Double roe,
+		Double debtToEquity,
+		Double eps,
 		Double sharesOutstanding,
 		Double dividendYield
 	) {
@@ -47,11 +45,10 @@ public class StockIndicators {
 		this.sector = sector;
 		this.marketCap = marketCap;
 		this.priceToBook = priceToBook;
-		this.returnOnAssets = returnOnAssets;
-		this.returnOnCapital = returnOnCapital;
-		this.totalAssets = totalAssets;
-		this.totalLiabilities = totalLiabilities;
-		this.netIncome = netIncome;
+		this.ebitdaMargin = ebitdaMargin;
+		this.roe = roe;
+		this.debtToEquity = debtToEquity;
+		this.eps = eps;
 		this.sharesOutstanding = sharesOutstanding;
 		this.dividendYield = dividendYield;
 	}
@@ -92,24 +89,20 @@ public class StockIndicators {
 		return priceToBook;
 	}
 
-	public Double getReturnOnAssets() {
-		return returnOnAssets;
+	public Double getEbitdaMargin() {
+		return ebitdaMargin;
 	}
 
-	public Double getReturnOnCapital() {
-		return returnOnCapital;
+	public Double getRoe() {
+		return roe;
 	}
 
-	public Double getTotalAssets() {
-		return totalAssets;
+	public Double getDebtToEquity() {
+		return debtToEquity;
 	}
 
-	public Double getTotalLiabilities() {
-		return totalLiabilities;
-	}
-
-	public Double getNetIncome() {
-		return netIncome;
+	public Double getEps() {
+		return eps;
 	}
 
 	public Double getSharesOutstanding() {
@@ -132,11 +125,10 @@ public class StockIndicators {
 			", sector='" + sector + '\'' +
 			", marketCap=" + marketCap +
 			", priceToBook=" + priceToBook +
-			", returnOnAssets=" + returnOnAssets +
-			", returnOnCapital=" + returnOnCapital +
-			", totalAssets=" + totalAssets +
-			", totalLiabilities=" + totalLiabilities +
-			", netIncome=" + netIncome +
+			", ebitdaMargin=" + ebitdaMargin +
+			", roe=" + roe +
+			", debtToEquity=" + debtToEquity +
+			", eps=" + eps +
 			", sharesOutstanding=" + sharesOutstanding +
 			", dividendYield=" + dividendYield +
 			'}';
@@ -154,15 +146,14 @@ public class StockIndicators {
 			&& Objects.equals(currency, that.currency) && Objects.equals(changePercent, that.changePercent)
 			&& Objects.equals(companyName, that.companyName) && Objects.equals(sector, that.sector)
 			&& Objects.equals(marketCap, that.marketCap) && Objects.equals(priceToBook, that.priceToBook)
-			&& Objects.equals(returnOnAssets, that.returnOnAssets) && Objects.equals(returnOnCapital, that.returnOnCapital)
-			&& Objects.equals(totalAssets, that.totalAssets) && Objects.equals(totalLiabilities, that.totalLiabilities)
-			&& Objects.equals(netIncome, that.netIncome) && Objects.equals(sharesOutstanding, that.sharesOutstanding)
-			&& Objects.equals(dividendYield, that.dividendYield);
+			&& Objects.equals(ebitdaMargin, that.ebitdaMargin) && Objects.equals(roe, that.roe)
+			&& Objects.equals(debtToEquity, that.debtToEquity) && Objects.equals(eps, that.eps)
+			&& Objects.equals(sharesOutstanding, that.sharesOutstanding) && Objects.equals(dividendYield, that.dividendYield);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(ticker, exchange, currency, price, changePercent, companyName, sector, marketCap, priceToBook, returnOnAssets, returnOnCapital,
-			totalAssets, totalLiabilities, netIncome, sharesOutstanding, dividendYield);
+		return Objects.hash(ticker, exchange, currency, price, changePercent, companyName, sector, marketCap, priceToBook, ebitdaMargin, roe,
+			debtToEquity, eps, sharesOutstanding, dividendYield);
 	}
 }

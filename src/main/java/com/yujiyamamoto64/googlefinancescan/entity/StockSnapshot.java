@@ -28,11 +28,10 @@ public class StockSnapshot {
 	private Double changePercent;
 	private Double marketCap;
 	private Double priceToBook;
-	private Double returnOnAssets;
-	private Double returnOnCapital;
-	private Double totalAssets;
-	private Double totalLiabilities;
-	private Double netIncome;
+	private Double ebitdaMargin;
+	private Double roe;
+	private Double debtToEquity;
+	private Double eps;
 	private Double sharesOutstanding;
 	private Double dividendYield;
 	private Double score;
@@ -120,44 +119,36 @@ public class StockSnapshot {
 		this.priceToBook = priceToBook;
 	}
 
-	public Double getReturnOnAssets() {
-		return returnOnAssets;
+	public Double getEbitdaMargin() {
+		return ebitdaMargin;
 	}
 
-	public void setReturnOnAssets(Double returnOnAssets) {
-		this.returnOnAssets = returnOnAssets;
+	public void setEbitdaMargin(Double ebitdaMargin) {
+		this.ebitdaMargin = ebitdaMargin;
 	}
 
-	public Double getReturnOnCapital() {
-		return returnOnCapital;
+	public Double getRoe() {
+		return roe;
 	}
 
-	public void setReturnOnCapital(Double returnOnCapital) {
-		this.returnOnCapital = returnOnCapital;
+	public void setRoe(Double roe) {
+		this.roe = roe;
 	}
 
-	public Double getTotalAssets() {
-		return totalAssets;
+	public Double getDebtToEquity() {
+		return debtToEquity;
 	}
 
-	public void setTotalAssets(Double totalAssets) {
-		this.totalAssets = totalAssets;
+	public void setDebtToEquity(Double debtToEquity) {
+		this.debtToEquity = debtToEquity;
 	}
 
-	public Double getTotalLiabilities() {
-		return totalLiabilities;
+	public Double getEps() {
+		return eps;
 	}
 
-	public void setTotalLiabilities(Double totalLiabilities) {
-		this.totalLiabilities = totalLiabilities;
-	}
-
-	public Double getNetIncome() {
-		return netIncome;
-	}
-
-	public void setNetIncome(Double netIncome) {
-		this.netIncome = netIncome;
+	public void setEps(Double eps) {
+		this.eps = eps;
 	}
 
 	public Double getSharesOutstanding() {

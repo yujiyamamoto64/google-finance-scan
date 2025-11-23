@@ -221,11 +221,10 @@
           ${renderMeta('Market Cap', ind.marketCap, '', 'Valor de mercado da empresa.')}
           ${ind.dividendYield != null ? renderMeta('Dividend Yield', ind.dividendYield, '%', 'Provento em % sobre o preço atual.') : ''}
           ${renderMeta('P/VPA', ind.priceToBook, '', 'Preço dividido pelo valor patrimonial por ação.')}
-          ${renderMeta('ROA', ind.returnOnAssets, '%', 'Retorno sobre ativos: lucro vs. ativos.')}
-          ${renderMeta('ROC', ind.returnOnCapital, '%', 'Retorno sobre o capital investido.')}
-          ${renderMeta('Ativos', ind.totalAssets, '', 'Ativos totais reportados.')}
-          ${renderMeta('Passivos', ind.totalLiabilities, '', 'Passivos totais reportados.')}
-          ${renderMeta('Lucro Líquido', ind.netIncome, '', 'Lucro líquido do período.')}
+          ${renderMeta('EBITDA margin', ind.ebitdaMargin, '%', 'Margem EBITDA TTM, quando disponível.')}
+          ${renderMeta('ROE', ind.roe, '%', 'Retorno sobre patrimônio líquido.')}
+          ${renderMeta('Debt/Equity', ind.debtToEquity, '', 'Alavancagem dívida/patrimônio; menor é melhor.')}
+          ${renderMeta('EPS', ind.eps, '', 'Lucro por ação (TTM).')}
           ${renderMeta('Ações em Circulação', ind.sharesOutstanding, '', 'Quantidade de ações em circulação.')}
           <div class="meta-item">
             <div class="label">Score</div>
