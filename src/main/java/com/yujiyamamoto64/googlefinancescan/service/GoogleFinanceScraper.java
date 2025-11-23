@@ -151,25 +151,41 @@ public class GoogleFinanceScraper {
 	}
 
 	private Double parseStat(Document doc, String label) {
-		String regex = "(?i)^" + Pattern.quote(label) + "$";
-		// Main table pattern (label cell + td.QXDnM with the value).
-		Element labelElement = doc.select("div.rsPbEe:matchesOwn(" + regex + ")").first();
-		if (labelElement != null) {
-			Element row = labelElement.closest("tr");
-			if (row != null) {
-				Element valueCell = row.selectFirst("td.QXDnM");
-				if (valueCell != null) {
-					return parseOptionalNumeric(valueCell.text());
-				}
+		// 1. Padrão principal do Google Finance atual (2024/2025)
+		Element row = doc.selectFirst("div.P6K39c:has(div.mfs7Fc:matchesOwn(" + Pattern.quote(label) + "))");
+		if (row != null) {
+			Element value = row.selectFirst("div.P6K39c[jsname=U8sYAd]");
+			if (value != null && !value.text().isBlank()) {
+				return parseOptionalNumeric(value.text());
 			}
 		}
 
-		// Generic fallback: find any element that matches the label text and read the next sibling.
-		Element generic = doc.select("*:matchesOwn(" + regex + ")").first();
-		if (generic != null) {
-			Element sibling = generic.nextElementSibling();
-			if (sibling != null && !sibling.text().isBlank()) {
+		// 2. fallback genérico
+		Element genericLabel = doc.selectFirst("*:matchesOwn(" + Pattern.quote(label) + ")");
+		if (genericLabel != null) {
+			Element sibling = genericLabel.parent().selectFirst("div[jsname=U8sYAd]");
+			if (sibling != null) {
 				return parseOptionalNumeric(sibling.text());
+			}
+
+			// 3. fallback adicional: caminha por irmãos próximos buscando o primeiro valor numérico
+			Element next = genericLabel.nextElementSibling();
+			int hops = 0;
+			while (next != null && hops++ < 4) {
+				Double val = parseOptionalNumeric(next.text());
+				if (val != null) {
+					return val;
+				}
+				next = next.nextElementSibling();
+			}
+			Element parentNext = genericLabel.parent() != null ? genericLabel.parent().nextElementSibling() : null;
+			hops = 0;
+			while (parentNext != null && hops++ < 4) {
+				Double val = parseOptionalNumeric(parentNext.text());
+				if (val != null) {
+					return val;
+				}
+				parentNext = parentNext.nextElementSibling();
 			}
 		}
 
