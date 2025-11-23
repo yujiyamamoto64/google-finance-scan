@@ -28,6 +28,7 @@ public class StockSnapshot {
 	private Double changePercent;
 	private Double marketCap;
 	private Double priceToBook;
+	private Double peRatio;
 	private Double ebitdaMargin;
 	private Double roe;
 	private Double debtToEquity;
@@ -117,6 +118,14 @@ public class StockSnapshot {
 
 	public void setPriceToBook(Double priceToBook) {
 		this.priceToBook = priceToBook;
+	}
+
+	public Double getPeRatio() {
+		return peRatio;
+	}
+
+	public void setPeRatio(Double peRatio) {
+		this.peRatio = peRatio;
 	}
 
 	public Double getEbitdaMargin() {

@@ -1,4 +1,4 @@
-package com.yujiyamamoto64.googlefinancescan.service;
+Ôªøpackage com.yujiyamamoto64.googlefinancescan.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,41 +16,40 @@ public class ScoringService {
 		List<ScoreBreakdown> parts = new ArrayList<>();
 		double total = 0.0;
 
-		double pvbPoints = scoreLowerIsBetter(indicators.getPriceToBook(), 1.0, 3.0, 25);
+		double pvbPoints = scoreLowerIsBetter(indicators.getPriceToBook(), 1.0, 3.0, 20);
 		total += pvbPoints;
-		parts.add(new ScoreBreakdown("PreÁo/Valor Patrimonial", indicators.getPriceToBook(), 25, pvbPoints,
+		parts.add(new ScoreBreakdown("Pre√ßo/Valor Patrimonial", indicators.getPriceToBook(), 20, pvbPoints,
 			"P/VPA <= 1,0 ganha todos os pontos; acima de 3,0 perde todos."));
 
-		double ebitdaPoints = scoreHigherIsBetter(indicators.getEbitdaMargin(), 10.0, 30.0, 20);
-		total += ebitdaPoints;
-		parts.add(new ScoreBreakdown("EBITDA margin (%)", indicators.getEbitdaMargin(), 20, ebitdaPoints,
-			"EBITDA margin acima de 30% leva nota m·xima; abaixo de 10% zera."));
+		double pePoints = scoreLowerIsBetter(indicators.getPeRatio(), 6.0, 25.0, 25);
+		total += pePoints;
+		parts.add(new ScoreBreakdown("P/L (TTM)", indicators.getPeRatio(), 25, pePoints,
+			"P/L entre 6 e 15 √© saud√°vel; acima de 25 perde todos os pontos."));
 
 		double roePoints = scoreHigherIsBetter(indicators.getRoe(), 8.0, 20.0, 20);
 		total += roePoints;
 		parts.add(new ScoreBreakdown("ROE (%)", indicators.getRoe(), 20, roePoints,
 			"ROE acima de 20% maximiza a nota; abaixo de 8% perde pontos."));
 
-		double debtEquityPoints = scoreLowerIsBetter(indicators.getDebtToEquity(), 0.5, 2.0, 15);
-		total += debtEquityPoints;
-		parts.add(new ScoreBreakdown("Alavancagem (Debt/Equity)", indicators.getDebtToEquity(), 15, debtEquityPoints,
-			"<=0,5 È excelente; >=2,0 consome todos os pontos deste critÈrio."));
-
 		double epsPoints = (indicators.getEps() != null && indicators.getEps() > 0) ? 10 : 0;
 		total += epsPoints;
 		parts.add(new ScoreBreakdown("EPS positivo", indicators.getEps(), 10, epsPoints,
-			epsPoints > 0 ? "EPS > 0 soma estabilidade." : "EPS negativo zera este critÈrio."));
+			epsPoints > 0 ? "EPS > 0 soma estabilidade." : "EPS negativo zera este crit√©rio."));
 
-		double dividendPoints = scoreHigherIsBetter(indicators.getDividendYield(), 2.0, 8.0, 5);
+		double dividendPoints = scoreHigherIsBetter(indicators.getDividendYield(), 2.0, 8.0, 15);
 		total += dividendPoints;
-		parts.add(new ScoreBreakdown("Dividend Yield (%)", indicators.getDividendYield(), 5, dividendPoints,
+		parts.add(new ScoreBreakdown("Dividend Yield (%)", indicators.getDividendYield(), 15, dividendPoints,
 			"Yield alto melhora o score, limitado a 8%."));
 
-		// Pontos restantes para estabilidade de preÁo (proxy simples: ausÍncia de dados -> neutro).
-		double resiliencePoints = 5; // bÙnus fixo, evita score muito baixo se demais dados faltarem.
+		double sizePoints = scoreHigherIsBetter(indicators.getMarketCap(), 2_000_000_000D, 10_000_000_000D, 10);
+		total += sizePoints;
+		parts.add(new ScoreBreakdown("Porte (Market Cap)", indicators.getMarketCap(), 10, sizePoints,
+			"Acima de US$10B recebe nota m√°xima; abaixo de US$2B zera."));
+
+		double resiliencePoints = 5; // b√¥nus fixo, evita score muito baixo se demais dados faltarem.
 		total += resiliencePoints;
-		parts.add(new ScoreBreakdown("BÙnus de estabilidade", null, 5, resiliencePoints,
-			"Pequeno bÙnus para compensar eventuais dados ausentes."));
+		parts.add(new ScoreBreakdown("B√¥nus de estabilidade", null, 5, resiliencePoints,
+			"Pequeno b√¥nus para compensar eventuais dados ausentes."));
 
 		double capped = Math.min(100.0, Math.round(total * 10) / 10.0);
 		String verdict = verdict(capped);

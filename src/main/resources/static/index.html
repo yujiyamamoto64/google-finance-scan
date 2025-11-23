@@ -221,9 +221,9 @@
           ${renderMeta('Market Cap', ind.marketCap, '', 'Valor de mercado da empresa.')}
           ${ind.dividendYield != null ? renderMeta('Dividend Yield', ind.dividendYield, '%', 'Provento em % sobre o preço atual.') : ''}
           ${renderMeta('P/VPA', ind.priceToBook, '', 'Preço dividido pelo valor patrimonial por ação.')}
-          ${renderMeta('EBITDA margin', ind.ebitdaMargin, '%', 'Margem EBITDA TTM, quando disponível.')}
+          ${renderMeta('P/L (TTM)', ind.peRatio, '', 'Preço / lucro dos últimos 12 meses.')}
           ${renderMeta('ROE', ind.roe, '%', 'Retorno sobre patrimônio líquido.')}
-          ${renderMeta('Debt/Equity', ind.debtToEquity, '', 'Alavancagem dívida/patrimônio; menor é melhor.')}
+          ${renderMeta('Dividend Yield', ind.dividendYield, '%', 'Provento em % sobre o preço atual.')}
           ${renderMeta('EPS', ind.eps, '', 'Lucro por ação (TTM).')}
           ${renderMeta('Ações em Circulação', ind.sharesOutstanding, '', 'Quantidade de ações em circulação.')}
           <div class="meta-item">

@@ -12,6 +12,7 @@ public class StockIndicators {
 	private final String sector;
 	private final Double marketCap;
 	private final Double priceToBook;
+	private final Double peRatio;
 	private final Double ebitdaMargin;
 	private final Double roe;
 	private final Double debtToEquity;
@@ -29,6 +30,7 @@ public class StockIndicators {
 		String sector,
 		Double marketCap,
 		Double priceToBook,
+		Double peRatio,
 		Double ebitdaMargin,
 		Double roe,
 		Double debtToEquity,
@@ -45,6 +47,7 @@ public class StockIndicators {
 		this.sector = sector;
 		this.marketCap = marketCap;
 		this.priceToBook = priceToBook;
+		this.peRatio = peRatio;
 		this.ebitdaMargin = ebitdaMargin;
 		this.roe = roe;
 		this.debtToEquity = debtToEquity;
@@ -89,6 +92,10 @@ public class StockIndicators {
 		return priceToBook;
 	}
 
+	public Double getPeRatio() {
+		return peRatio;
+	}
+
 	public Double getEbitdaMargin() {
 		return ebitdaMargin;
 	}
@@ -125,6 +132,7 @@ public class StockIndicators {
 			", sector='" + sector + '\'' +
 			", marketCap=" + marketCap +
 			", priceToBook=" + priceToBook +
+			", peRatio=" + peRatio +
 			", ebitdaMargin=" + ebitdaMargin +
 			", roe=" + roe +
 			", debtToEquity=" + debtToEquity +
@@ -145,7 +153,7 @@ public class StockIndicators {
 		return Double.compare(that.price, price) == 0 && Objects.equals(ticker, that.ticker) && Objects.equals(exchange, that.exchange)
 			&& Objects.equals(currency, that.currency) && Objects.equals(changePercent, that.changePercent)
 			&& Objects.equals(companyName, that.companyName) && Objects.equals(sector, that.sector)
-			&& Objects.equals(marketCap, that.marketCap) && Objects.equals(priceToBook, that.priceToBook)
+			&& Objects.equals(marketCap, that.marketCap) && Objects.equals(priceToBook, that.priceToBook) && Objects.equals(peRatio, that.peRatio)
 			&& Objects.equals(ebitdaMargin, that.ebitdaMargin) && Objects.equals(roe, that.roe)
 			&& Objects.equals(debtToEquity, that.debtToEquity) && Objects.equals(eps, that.eps)
 			&& Objects.equals(sharesOutstanding, that.sharesOutstanding) && Objects.equals(dividendYield, that.dividendYield);
@@ -153,7 +161,7 @@ public class StockIndicators {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(ticker, exchange, currency, price, changePercent, companyName, sector, marketCap, priceToBook, ebitdaMargin, roe,
+		return Objects.hash(ticker, exchange, currency, price, changePercent, companyName, sector, marketCap, priceToBook, peRatio, ebitdaMargin, roe,
 			debtToEquity, eps, sharesOutstanding, dividendYield);
 	}
 }

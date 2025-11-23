@@ -42,6 +42,7 @@ public class GoogleFinanceScraper {
 			Double marketCap = parseStat(doc, "Market cap");
 
 			Double priceToBook = parseStat(doc, "Price to book");
+			Double peRatio = parseStat(doc, "P/E ratio");
 			Double ebitdaMargin = parseStat(doc, "EBITDA margin");
 			Double roe = parseStat(doc, "Return on equity");
 			Double debtToEquity = parseStat(doc, "Debt / equity");
@@ -63,6 +64,7 @@ public class GoogleFinanceScraper {
 				sector,
 				marketCap,
 				priceToBook,
+				peRatio,
 				ebitdaMargin,
 				roe,
 				debtToEquity,

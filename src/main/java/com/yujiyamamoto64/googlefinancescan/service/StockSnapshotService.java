@@ -35,6 +35,7 @@ public class StockSnapshotService {
 		snap.setChangePercent(indicators.getChangePercent());
 		snap.setMarketCap(indicators.getMarketCap());
 		snap.setPriceToBook(indicators.getPriceToBook());
+		snap.setPeRatio(indicators.getPeRatio());
 		snap.setEbitdaMargin(indicators.getEbitdaMargin());
 		snap.setRoe(indicators.getRoe());
 		snap.setDebtToEquity(indicators.getDebtToEquity());
