@@ -42,6 +42,12 @@ public class GoogleFinanceScraper {
 			Double marketCap = parseStat(doc, "Market cap");
 
 			Double priceToBook = parseStat(doc, "Price to book");
+			Double equity = firstNonNull(
+				parseStat(doc, "Capital próprio"),
+				parseStat(doc, "Patrimônio líquido"),
+				parseStat(doc, "Total equity"),
+				parseStat(doc, "Shareholders' equity")
+			);
 			Double peRatio = parseStat(doc, "P/E ratio");
 			Double ebitdaMargin = parseStat(doc, "EBITDA margin");
 			Double roe = parseStat(doc, "Return on equity");
@@ -53,6 +59,7 @@ public class GoogleFinanceScraper {
 			);
 			Double sharesOutstanding = parseStat(doc, "Shares outstanding");
 			Double dividendYield = parseStat(doc, "Dividend yield");
+			Double derivedPriceToBook = derivePriceToBook(priceToBook, price, equity, sharesOutstanding);
 
 			return new StockIndicators(
 				ticker,
@@ -63,7 +70,7 @@ public class GoogleFinanceScraper {
 				companyName,
 				sector,
 				marketCap,
-				priceToBook,
+				derivedPriceToBook,
 				peRatio,
 				ebitdaMargin,
 				roe,
@@ -190,6 +197,20 @@ public class GoogleFinanceScraper {
 		}
 
 		return null;
+	}
+
+	private Double derivePriceToBook(Double parsedPriceToBook, double price, Double equity, Double sharesOutstanding) {
+		if (parsedPriceToBook != null) {
+			return parsedPriceToBook;
+		}
+		if (equity == null || sharesOutstanding == null || sharesOutstanding <= 0) {
+			return null;
+		}
+		double bookValuePerShare = equity / sharesOutstanding;
+		if (bookValuePerShare <= 0) {
+			return null;
+		}
+		return price / bookValuePerShare;
 	}
 
 	private Double parseOptionalNumeric(String raw) {
