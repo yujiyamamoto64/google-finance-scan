@@ -51,10 +51,27 @@ public class GoogleFinanceScraper {
 			);
 			Double peRatio = parseStat(doc, "P/E ratio", "P/L", "Price to earnings");
 			Double ebitdaMargin = parseStat(doc, "EBITDA margin", "Margem EBITDA");
-			Double roe = parseStat(doc, "Return on equity", "ROE");
+			Double roe = parseStat(doc,
+				"ROE",
+				"Return on equity",
+				"Retorno sobre patrimônio",
+				"Retorno sobre capital próprio",
+				"Retorno sobre PL",
+				"Retorno s/ patrimônio",
+				"Retorno sobre capital"
+			);
 			Double debtToEquity = parseStat(doc, "Debt / equity", "Debt to equity");
 			Double eps = parseStat(doc, "EPS", "Earnings per share", "EPS (TTM)", "LPA");
-			Double sharesOutstanding = parseStat(doc, "Shares outstanding", "Ações em circulação", "Acoes em circulacao");
+			Double sharesOutstanding = parseStat(doc,
+				"Shares outstanding",
+				"Ações em circulação",
+				"Acoes em circulacao",
+				"Total shares",
+				"Total de ações",
+				"Ações emitidas",
+				"Acoes emitidas",
+				"Shares"
+			);
 			Double dividendYield = parseStat(doc, "Dividend yield", "Dividendos", "Dividend Yield");
 			Double derivedPriceToBook = derivePriceToBook(priceToBook, price, equity, sharesOutstanding);
 
