@@ -1,6 +1,7 @@
 package com.yujiyamamoto64.googlefinancescan.service;
 
 import java.io.IOException;
+import java.text.Normalizer;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
@@ -189,25 +190,53 @@ public class GoogleFinanceScraper {
 	}
 
 	private Double parseStatSingle(Document doc, String label) {
-		String pattern = "(?i)\\Q" + label + "\\E";
+		String normalizedLabel = normalizeLabel(label);
 
-		Element row = doc.selectFirst("div.P6K39c:has(div.mfs7Fc:matchesOwn(" + pattern + "))");
-		if (row != null) {
-			Element value = row.selectFirst("div[jsname=U8sYAd]");
-			if (value != null && !value.text().isBlank()) {
-				return parseOptionalNumeric(value.text());
+		for (Element row : doc.select("div.P6K39c")) {
+			Element labelEl = row.selectFirst("div.mfs7Fc");
+			if (labelMatches(labelEl, normalizedLabel)) {
+				Element value = row.selectFirst("div[jsname=U8sYAd]");
+				if (value != null && !value.text().isBlank()) {
+					return parseOptionalNumeric(value.text());
+				}
 			}
 		}
 
-		Element genericLabel = doc.selectFirst("*:matchesOwn(" + pattern + ")");
-		if (genericLabel != null) {
-			Element sibling = genericLabel.parent().selectFirst("div[jsname=U8sYAd]");
-			if (sibling != null) {
-				return parseOptionalNumeric(sibling.text());
+		for (Element genericLabel : doc.getAllElements()) {
+			if (labelMatches(genericLabel, normalizedLabel)) {
+				Element sibling = genericLabel.parent() != null ? genericLabel.parent().selectFirst("div[jsname=U8sYAd]") : null;
+				if (sibling != null) {
+					return parseOptionalNumeric(sibling.text());
+				}
 			}
 		}
 
 		return null;
+	}
+
+	private boolean labelMatches(Element element, String normalizedLabel) {
+		if (element == null) {
+			return false;
+		}
+		String text = element.ownText();
+		if (text == null || text.isBlank()) {
+			text = element.text();
+		}
+		if (text == null || text.isBlank()) {
+			return false;
+		}
+		return normalizeLabel(text).equals(normalizedLabel);
+	}
+
+	private String normalizeLabel(String raw) {
+		if (raw == null) {
+			return "";
+		}
+		String normalized = Normalizer.normalize(raw, Normalizer.Form.NFD)
+			.replaceAll("\\p{M}+", "")
+			.replaceAll("[^\\p{Alnum}]+", "")
+			.toLowerCase(Locale.ROOT);
+		return normalized;
 	}
 
 	private Double derivePriceToBook(Double parsedPriceToBook, double price, Double equity, Double sharesOutstanding) {
