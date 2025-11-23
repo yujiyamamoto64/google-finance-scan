@@ -158,8 +158,9 @@ public class GoogleFinanceScraper {
 	}
 
 	private Double parseStat(Document doc, String label) {
+		String escapedLabel = escapeLabel(label);
 		// 1. Padrão principal do Google Finance atual (2024/2025)
-		Element row = doc.selectFirst("div.P6K39c:has(div.mfs7Fc:matchesOwn(" + Pattern.quote(label) + "))");
+		Element row = doc.selectFirst("div.P6K39c:has(div.mfs7Fc:matchesOwn(" + escapedLabel + "))");
 		if (row != null) {
 			Element value = row.selectFirst("div.P6K39c[jsname=U8sYAd]");
 			if (value != null && !value.text().isBlank()) {
@@ -168,7 +169,7 @@ public class GoogleFinanceScraper {
 		}
 
 		// 2. fallback genérico
-		Element genericLabel = doc.selectFirst("*:matchesOwn(" + Pattern.quote(label) + ")");
+		Element genericLabel = doc.selectFirst("*:matchesOwn(" + escapedLabel + ")");
 		if (genericLabel != null) {
 			Element sibling = genericLabel.parent().selectFirst("div[jsname=U8sYAd]");
 			if (sibling != null) {
@@ -197,6 +198,11 @@ public class GoogleFinanceScraper {
 		}
 
 		return null;
+	}
+
+	private String escapeLabel(String label) {
+		// Escapa regex e caracteres que quebram o seletor (ex: apóstrofo).
+		return Pattern.quote(label).replace("'", "\\\\'");
 	}
 
 	private Double derivePriceToBook(Double parsedPriceToBook, double price, Double equity, Double sharesOutstanding) {
