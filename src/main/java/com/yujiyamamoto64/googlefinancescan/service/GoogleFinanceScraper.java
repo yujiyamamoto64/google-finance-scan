@@ -152,7 +152,7 @@ public class GoogleFinanceScraper {
 		String regex = Pattern.quote(label);
 
 		// 1. Novo padrão Google Finance
-		Element row = doc.selectFirst("div.P6K39c:has(div.mfs7Fc:matchesOwn(" + regex + "))");
+		Element row = doc.selectFirst("div.P6K39c:has(div.mfs7Fc:matchesOwn(" + esc + "))");
 		if (row != null) {
 			Element value = row.selectFirst("div[jsname=U8sYAd]");
 			if (value != null && !value.text().isBlank()) {
@@ -173,16 +173,15 @@ public class GoogleFinanceScraper {
 	}
 
 	private String safeCssText(String text) {
-		// Escapa caracteres que quebram seletores CSS: ', ", [, ], (, ), :
 		return text
 				.replace("\\", "\\\\")
 				.replace("'", "\\'")
 				.replace("\"", "\\\"")
-				.replace(":", "\\:")
 				.replace("(", "\\(")
 				.replace(")", "\\)")
 				.replace("[", "\\[")
-				.replace("]", "\\]");
+				.replace("]", "\\]")
+				.replace(":", "\\:");
 	}
 
 	// ============================
