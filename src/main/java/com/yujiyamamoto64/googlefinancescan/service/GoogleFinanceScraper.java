@@ -225,7 +225,11 @@ public class GoogleFinanceScraper {
 		if (text == null || text.isBlank()) {
 			return false;
 		}
-		return normalizeLabel(text).equals(normalizedLabel);
+		String normalizedText = normalizeLabel(text);
+		if (normalizedText.isBlank()) {
+			return false;
+		}
+		return normalizedText.contains(normalizedLabel) || normalizedLabel.contains(normalizedText);
 	}
 
 	private String normalizeLabel(String raw) {
