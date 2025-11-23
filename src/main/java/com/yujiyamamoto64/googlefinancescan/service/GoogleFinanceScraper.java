@@ -161,7 +161,7 @@ public class GoogleFinanceScraper {
 		}
 
 		// 2. fallback seguro
-		Element labelEl = doc.selectFirst("*:matchesOwn(" + regex + ")");
+		Element labelEl = doc.selectFirst("*:matchesOwn(\"" + regex + "\")");
 		if (labelEl != null) {
 			Element sibling = labelEl.parent().selectFirst("div[jsname=U8sYAd]");
 			if (sibling != null) {
