@@ -41,13 +41,21 @@ public class GoogleFinanceScraper {
 
 			Double marketCap = parseStat(doc, "Market cap", "Valor de mercado");
 
-			Double priceToBook = parseStat(doc, "Price to book", "P/VP", "P/VPA");
+			Double priceToBook = parseStat(doc,
+				"Price to book",
+				"P/VP",
+				"P/VPA",
+				"Preco/Valor Patrimonial",
+				"Preço/Valor Patrimonial",
+				"Preco/Valor Patrimonio",
+				"Preço/Valor Patrimonio"
+			);
 			Double equity = parseStat(doc,
 				"Shareholders' equity",
 				"Patrimonio liquido",
-				"Patrimonio l\u00edquido",
+				"Patrimonio líquido",
 				"Capital proprio",
-				"Capital pr\u00f3prio"
+				"Capital próprio"
 			);
 
 			Double peRatio = parseStat(doc, "P/E ratio", "P/L", "Price to earnings");
@@ -181,9 +189,9 @@ public class GoogleFinanceScraper {
 	}
 
 	private Double parseStatSingle(Document doc, String label) {
-		String esc = cssEscape(label);
+		String pattern = "(?i)\\Q" + label + "\\E";
 
-		Element row = doc.selectFirst("div.P6K39c:has(div.mfs7Fc:containsOwn(" + esc + "))");
+		Element row = doc.selectFirst("div.P6K39c:has(div.mfs7Fc:matchesOwn(" + pattern + "))");
 		if (row != null) {
 			Element value = row.selectFirst("div[jsname=U8sYAd]");
 			if (value != null && !value.text().isBlank()) {
@@ -191,7 +199,7 @@ public class GoogleFinanceScraper {
 			}
 		}
 
-		Element genericLabel = doc.selectFirst("*:containsOwn(" + esc + ")");
+		Element genericLabel = doc.selectFirst("*:matchesOwn(" + pattern + ")");
 		if (genericLabel != null) {
 			Element sibling = genericLabel.parent().selectFirst("div[jsname=U8sYAd]");
 			if (sibling != null) {
@@ -270,12 +278,4 @@ public class GoogleFinanceScraper {
 		return isPercent ? value : value;
 	}
 
-	private String cssEscape(String label) {
-		return label
-			.replace("\\", "\\\\")
-			.replace("(", "\\(")
-			.replace(")", "\\)")
-			.replace("'", "\\'")
-			.replace("\"", "\\\"");
-	}
 }
