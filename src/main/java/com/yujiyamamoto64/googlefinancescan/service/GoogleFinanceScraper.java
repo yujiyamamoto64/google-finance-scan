@@ -147,25 +147,42 @@ public class GoogleFinanceScraper {
 	}
 
 	private Double parseStatSingle(Document doc, String label) {
-		String esc = Pattern.quote(label);
 
-		// 1) Novo padrão do Google Finance
-		Element row = doc.selectFirst("div.P6K39c:has(div.mfs7Fc:matchesOwn(" + esc + "))");
+		String esc = safeCssText(label);
+		String regex = Pattern.quote(label);
+
+		// 1. Novo padrão Google Finance
+		Element row = doc.selectFirst("div.P6K39c:has(div.mfs7Fc:matchesOwn(" + regex + "))");
 		if (row != null) {
 			Element value = row.selectFirst("div[jsname=U8sYAd]");
-			if (value != null && !value.text().isBlank())
+			if (value != null && !value.text().isBlank()) {
 				return parseOptionalNumeric(value.text());
+			}
 		}
 
-		// 2) fallback direto — sem "andar pelos irmãos"
-		Element labelEl = doc.selectFirst("*:matchesOwn(" + esc + ")");
+		// 2. fallback seguro
+		Element labelEl = doc.selectFirst("*:matchesOwn(" + regex + ")");
 		if (labelEl != null) {
 			Element sibling = labelEl.parent().selectFirst("div[jsname=U8sYAd]");
-			if (sibling != null)
+			if (sibling != null) {
 				return parseOptionalNumeric(sibling.text());
+			}
 		}
 
 		return null;
+	}
+
+	private String safeCssText(String text) {
+		// Escapa caracteres que quebram seletores CSS: ', ", [, ], (, ), :
+		return text
+				.replace("\\", "\\\\")
+				.replace("'", "\\'")
+				.replace("\"", "\\\"")
+				.replace(":", "\\:")
+				.replace("(", "\\(")
+				.replace(")", "\\)")
+				.replace("[", "\\[")
+				.replace("]", "\\]");
 	}
 
 	// ============================
