@@ -43,7 +43,7 @@ public class TickerBootstrap implements ApplicationRunner {
 	public void run(ApplicationArguments args) throws Exception {
 		List<TickerRow> tickers = loadTickers();
 		int inserted = 0;
-		for (String ticker : tickers) {
+		for (TickerRow ticker : tickers) {
 			boolean exists = repository.findByTickerIgnoreCase(ticker.code()).isPresent();
 			if (!exists) {
 				StockSnapshot snap = new StockSnapshot();
